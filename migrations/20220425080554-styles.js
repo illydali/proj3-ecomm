@@ -15,24 +15,23 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.addColumn('labels', 'artist_id', {
-    type: 'int',
-    unsigned: true,
-    notNull: true,
-    foreignKey: {
-      name: 'label_artist_fk',
-      table: 'artists',
-      rules: {
-        onDelete: 'cascade',
-        onUpdate: 'restrict'
-      },
-      mapping: 'id'
+  return db.createTable('styles', {
+    id: {
+      type: 'int',
+      primaryKey: true,
+      autoIncrement: true,
+      unsigned: true
+    },
+    name: {
+      type: 'string',
+      length: 100,
+      notNull: false
     }
   });
 };
 
 exports.down = function(db) {
-  return null;
+  return db.dropTable('styles');
 };
 
 exports._meta = {
