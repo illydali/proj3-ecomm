@@ -1,9 +1,5 @@
 'use strict';
 
-const {
-  VARCHAR
-} = require("mysql/lib/protocol/constants/types");
-
 var dbm;
 var type;
 var seed;
