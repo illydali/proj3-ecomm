@@ -1,18 +1,70 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<table class="'table table-hover">
+<table class="'table">
     <thead>
         <tr>
             <th>#</th>
             <th>Title</th>
+            <th>Label</th>
             <th>Description</th>
             <th>Price</th>
             <th>Release Date</th>
-            <th>Year</th>
+            {{!-- <th>Year</th> --}}
             <th>Stock</th>
+            <th>Size</th>
+            <th>Speed</th>
+            <th>Type</th>
+            <th>Genres</th>
+            <th></th>
         </tr>
     </thead>
+    <tbody>
+        {{#each records}}
+        <tr>
+            <td>
+                {{this.id}}
+            </td>
+            <td>
+                {{this.title}}
+            </td>
+            <td>
+                {{this.labels.name}}
+            </td>
+            <td>
+                {{this.description}}
+            </td>
+            <td>
+                {{this.price}}
+            </td>
+            <td>
+                {{this.release_date}}
+            </td>
+            <td>
+                {{this.stock}}
+            </td>
+            <td>
+                {{this.record_size}}
+            </td>
+            <td>
+                {{this.speed}}
+            </td>
+            <td>
+                {{this.type}}
+            </td>
+            <td>
+                {{#each this.genres}}
+                    <span class="badge bg-dark">{{this.name}}</span>
+                {{/each}}
+            </td>
+            <td>
+                <a href="/records/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
+                <a href="/records/{{this.id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+
+        </tr>
+        {{/each}}
+    </tbody>
 </table>
 {{/block}}
 

@@ -26,6 +26,7 @@ app.use(
 // import in routes
 const landingRoutes = require('./routes/landing')
 const recordRoutes = require('./routes/records')
+
 async function main() {
   app.use('/', landingRoutes)
   app.use('/records', recordRoutes)

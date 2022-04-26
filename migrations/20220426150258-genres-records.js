@@ -5,17 +5,17 @@ var type;
 var seed;
 
 /**
- * We receive the dbmigrate dependency from dbmigrate initially.
- * This enables us to not have to rely on NODE_PATH.
- */
-exports.setup = function (options, seedLink) {
+  * We receive the dbmigrate dependency from dbmigrate initially.
+  * This enables us to not have to rely on NODE_PATH.
+  */
+exports.setup = function(options, seedLink) {
   dbm = options.dbmigrate;
   type = dbm.dataType;
   seed = seedLink;
 };
 
-exports.up = function (db) {
-  return db.createTable('records_genres', {
+exports.up = function(db) {
+  return db.createTable('genres_records', {
     id: {
       type: 'int',
       primaryKey: true,
@@ -26,7 +26,7 @@ exports.up = function (db) {
       notNull: true,
       unsigned: true,
       foreignKey: {
-        name: 'records_genres_record_fk',
+        name: 'genres_records_record_fk',
         table: 'records',
         rules: {
           onDelete: 'cascade',
@@ -40,7 +40,7 @@ exports.up = function (db) {
       notNull: true,
       unsigned: true,
       foreignKey: {
-        name: 'records_genres_genre_fk',
+        name: 'genres_records_genre_fk',
         table: 'genres',
         rules: {
           onDelete: 'cascade',
@@ -52,8 +52,8 @@ exports.up = function (db) {
   });
 };
 
-exports.down = function (db) {
-  return db.dropTable('records_genres');
+exports.down = function(db) {
+  return db.dropTable('genres_records');
 };
 
 exports._meta = {
