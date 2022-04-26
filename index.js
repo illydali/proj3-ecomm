@@ -2,12 +2,21 @@ const express = require("express");
 const hbs = require("hbs");
 const wax = require("wax-on");
 require("dotenv").config();
-
+const moment = require('moment')
 // create an instance of express app
 let app = express();
 
 // set the view engine
 app.set("view engine", "hbs");
+hbs.handlebars.registerHelper("formatDate", function (datetime) {
+  return moment(datetime).format('YYYY, D MMM');
+})
+
+hbs.handlebars.registerHelper("dollarAmount", function (price){
+  let dollars = price / 100;
+  dollars = dollars.toLocaleString("en-SG", {style:"currency", currency:"SGD"});
+  return dollars
+})
 
 // static folder
 app.use(express.static("public"));

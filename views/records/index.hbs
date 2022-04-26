@@ -1,7 +1,7 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<table class="'table">
+<table class="'table table-striped">
     <thead>
         <tr>
             <th>#</th>
@@ -9,7 +9,7 @@
             <th>Label</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Release Date</th>
+            <th>Released</th>
             {{!-- <th>Year</th> --}}
             <th>Stock</th>
             <th>Size</th>
@@ -31,14 +31,14 @@
             <td>
                 {{this.labels.name}}
             </td>
-            <td>
+            <td class="w-50">
                 {{this.description}}
             </td>
             <td>
-                {{this.price}}
+                {{dollarAmount this.price}}
             </td>
             <td>
-                {{this.release_date}}
+                {{formatDate this.release_date}}
             </td>
             <td>
                 {{this.stock}}
