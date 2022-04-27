@@ -77,7 +77,7 @@ router.post('/create', async(req,res)=>{
             if (genres){
                 await record.genres().attach(genres.split(','))
             }
-           
+            req.flash("success_messages", `New Record ${record.get('title')} has been created`)
             res.redirect('/records');
         },
         'error': async (form) => {
@@ -150,6 +150,7 @@ router.post('/:id/update', async (req, res) => {
             // add in all the genres selected in the form 
             await record.genres().attach(genreIds);
 
+            req.flash("success_messages", `${record.get('title')} has been updated`)
             res.redirect('/records');
         },
         'error': async (form) => {
@@ -175,6 +176,7 @@ router.post('/:id/delete', async (req, res) => {
     const record = await getRecord(req.params.id)
 
     await record.destroy();
+    req.flash("success_messages", `${record.get('title')} has been deleted`)
     res.redirect('/records')
 
 });
