@@ -12,19 +12,21 @@
     </thead>
     <tbody>
         {{#each artists}}
-        <td>
-            {{this.id}}
-        </td>
-        <td>
-            {{this.name}}
-        </td>
-        <td>
-            {{this.about}}
-        </td>
-        <td>
-            <a href="/artists/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
-            <a href="/artists/{{this.id}}/delete" class="btn btn-danger btn-sm">Delete</a>
-        </td>
+        <tr>
+            <td>
+                {{this.id}}
+            </td>
+            <td>
+                {{this.name}}
+            </td>
+            <td>
+                {{this.about}}
+            </td>
+            <td>
+                <a href="/artists/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
+                <a href="/artists/{{this.id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+       </tr>
         {{/each}}
     </tbody>
 </table>

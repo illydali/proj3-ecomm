@@ -3,6 +3,7 @@
 {{#block 'content'}}
 <h1>Update Info for: {{artist.name}}</h1>
 <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
     <input type="submit" value="Update Artist Info" class="btn btn-primary btn-sm mt-3"/>
     <a href="/artists" class="btn btn-success btn-sm mt-3">Cancel</a>

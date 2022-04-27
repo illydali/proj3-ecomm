@@ -9,7 +9,19 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 // create an instance of express app
- const app = express();
+const app = express();
+
+// import csrf
+const csrf = require('csurf')
+app.use(csrf());
+app.use(function (err, req, res, next) {
+  if (err && err.code == "EBADCSRFTOKEN") {
+      req.flash('error_messages', 'The form has expired. Please try again');
+      res.redirect('back');
+  } else {
+      next()
+  }
+});
 
 // set the view engine
 app.set("view engine", "hbs");
@@ -17,9 +29,12 @@ hbs.handlebars.registerHelper("formatDate", function (datetime) {
   return moment(datetime).format('YYYY, D MMM');
 })
 
-hbs.handlebars.registerHelper("dollarAmount", function (price){
+hbs.handlebars.registerHelper("dollarAmount", function (price) {
   let dollars = price / 100;
-  dollars = dollars.toLocaleString("en-SG", {style:"currency", currency:"SGD"});
+  dollars = dollars.toLocaleString("en-SG", {
+    style: "currency",
+    currency: "SGD"
+  });
   return dollars
 })
 
@@ -38,7 +53,7 @@ app.use(
 );
 
 // set up sessions
-app.use (session ({
+app.use(session({
   store: new FileStore(),
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
@@ -46,7 +61,7 @@ app.use (session ({
 }))
 
 // share the user data with all hbs files
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
   res.locals.user = req.session.user;
   next();
 })
@@ -55,10 +70,17 @@ app.use(flash())
 
 // Register Flash middleware
 app.use(function (req, res, next) {
-    res.locals.success_messages = req.flash("success_messages");
-    res.locals.error_messages = req.flash("error_messages");
-    next();
+  res.locals.success_messages = req.flash("success_messages");
+  res.locals.error_messages = req.flash("error_messages");
+  next();
 });
+
+app.use(function(req,res,next){
+  if (req.csrfToken) {
+      res.locals.csrfToken = req.csrfToken();
+  }
+  next();
+})
 
 // import in routes
 const landingRoutes = require('./routes/landing')
@@ -72,7 +94,7 @@ async function main() {
   app.use('/records', recordRoutes)
   app.use('/artists', artistRoutes)
   app.use('/users', userRoutes)
-  
+
 }
 
 main();

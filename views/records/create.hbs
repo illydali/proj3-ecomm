@@ -3,6 +3,7 @@
 {{#block 'content'}}
 <h1>Add New Record</h1>
 <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
     <input type="submit" value="Add Record" class="btn btn-primary btn-sm mt-3"/>
     <a href="/records" class="btn btn-success btn-sm mt-3">Cancel</a>
