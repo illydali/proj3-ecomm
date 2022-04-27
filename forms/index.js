@@ -5,7 +5,9 @@ const validators = forms.validators;
 const widgets = forms.widgets;
 
 var bootstrapField = function (name, object) {
-    if (!Array.isArray(object.widget.classes)) { object.widget.classes = []; }
+    if (!Array.isArray(object.widget.classes)) {
+        object.widget.classes = [];
+    }
 
     if (object.widget.classes.indexOf('form-control') === -1) {
         object.widget.classes.push('form-control');
@@ -40,41 +42,41 @@ const createRecordForm = (genres, labels) => {
         'price': fields.string({
             required: true,
             errorAfterField: true,
-            'validators':[validators.integer(), validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
-        'description' : fields.string({
+        'description': fields.string({
             required: true,
             errorAfterField: true
         }),
-        'release_date' : fields.string({
+        'release_date': fields.string({
             required: true,
             errorAfterField: true,
             widget: widgets.date()
         }),
-        'stock' : fields.string({
+        'stock': fields.string({
             required: true,
             errorAfterField: true,
-            'validators':[validators.integer(), validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
-        'record_size' : fields.string({
+        'record_size': fields.string({
             required: true,
             errorAfterField: true,
-            'validators':[validators.integer(), validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
-        'speed' : fields.string({
+        'speed': fields.string({
             required: true,
             errorAfterField: true,
-            'validators':[validators.integer(), validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
-        'type' : fields.string({
+        'type': fields.string({
             required: true,
             errorAfterField: true
         }),
-        'main_image' : fields.string({
+        'main_image': fields.string({
             // add required true here later   ! important
-            
+
         }),
-        'genres' : fields.string({
+        'genres': fields.string({
             label: 'Genre',
             required: true,
             errorAfterField: true,
@@ -86,15 +88,56 @@ const createRecordForm = (genres, labels) => {
 
 const createArtistForm = () => {
     return forms.create({
-        'name' : fields.string({
+        'name': fields.string({
             required: true,
             errorAfterField: true,
         }),
-        'about' : fields.string({
+        'about': fields.string({
             required: true,
             errorAfterField: true
         })
     })
 }
 
-module.exports = { createRecordForm, createArtistForm, bootstrapField }
+const createRegisterForm = () => {
+    return forms.create({
+        'username': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'email': fields.string({
+            required: true,
+            errorAfterField: true,
+        }),
+        'password': fields.password({
+            required: true,
+            errorAfterField: true
+        }),
+        'confirm_password': fields.password({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.matchField('password')]
+        })
+    })
+}
+
+const userLoginForm = () => {
+    return forms.create({
+        'email': fields.string({
+            'required': true,
+            'errorAfterField': true,
+        }),
+        'password': fields.password({
+            'required': true,
+            'errorAfterField': true
+        })
+    })
+}
+
+module.exports = {
+    createRecordForm,
+    createArtistForm,
+    createRegisterForm,
+    userLoginForm,
+    bootstrapField
+}

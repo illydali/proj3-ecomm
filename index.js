@@ -58,12 +58,14 @@ app.use(function (req, res, next) {
 const landingRoutes = require('./routes/landing')
 const recordRoutes = require('./routes/records')
 const artistRoutes = require('./routes/artists')
+const userRoutes = require('./routes/users')
 
 
 async function main() {
   app.use('/', landingRoutes)
   app.use('/records', recordRoutes)
   app.use('/artists', artistRoutes)
+  app.use('/users', userRoutes)
   
 }
 

@@ -1,11 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const checkIfAuthenticated = require('../middlewares')
 
 // import in the all models
-const { Record, Artist, Label, Genre, Style } = require('../models')
+const {
+    Record,
+    Artist,
+    Label,
+    Genre,
+    Style
+} = require('../models')
 
 // importing in the forms
-const { createRecordForm, bootstrapField } = require('../forms'); 
+const {
+    createRecordForm,
+    bootstrapField
+} = require('../forms');
 
 async function getAllGenres() {
     const allGenres = await Genre.fetchAll().map(genre => {
@@ -23,7 +33,7 @@ async function getAllLabels() {
 
 async function getRecord(recordId) {
     const recordToUpdate = await Record.where({
-        'id' : recordId
+        'id': recordId
     }).fetch({
         require: true,
         withRelated: ['genres']
@@ -31,7 +41,7 @@ async function getRecord(recordId) {
     return recordToUpdate
 }
 
-router.get('/', async (req,res)=>{
+router.get('/', async (req, res) => {
     // #2 - fetch all the products (ie, SELECT * from products)
     let records = await Record.collection().fetch({
         withRelated: ['labels', 'genres']
@@ -41,16 +51,16 @@ router.get('/', async (req,res)=>{
     })
 })
 
-router.get('/create', async (req,res) => {
+router.get('/create', checkIfAuthenticated, async (req, res) => {
     const allGenres = await getAllGenres()
     const allLabels = await getAllLabels()
     const createNew = createRecordForm(allGenres, allLabels);
     res.render('records/create', {
-        'form' : createNew.toHTML(bootstrapField)
+        'form': createNew.toHTML(bootstrapField)
     })
 })
 
-router.post('/create', async(req,res)=>{
+router.post('/create', checkIfAuthenticated, async (req, res) => {
     const allGenres = getAllGenres()
     const allLabels = getAllLabels()
     const createNew = createRecordForm(allGenres, allLabels);
@@ -59,7 +69,10 @@ router.post('/create', async(req,res)=>{
             // separate out genres from the other product data
             // as not to cause an error when creating
             // the new record
-            let {genres, ...recordData} = form.data;
+            let {
+                genres,
+                ...recordData
+            } = form.data;
 
             const record = new Record(recordData);
             // record.set('title', form.data.title);
@@ -71,10 +84,10 @@ router.post('/create', async(req,res)=>{
             // record.set('speed', form.data.speed);
             // record.set('type', form.data.type);
             // record.set('label_id', form.data.label_id)
-            
+
             await record.save();
 
-            if (genres){
+            if (genres) {
                 await record.genres().attach(genres.split(','))
             }
             req.flash("success_messages", `New Record ${record.get('title')} has been created`)
@@ -129,7 +142,7 @@ router.post('/:id/update', async (req, res) => {
     const record = await getRecord(req.params.id)
 
     const updateForm = createRecordForm(allGenres, allLabels);
-    
+
     updateForm.handle(req, {
         'success': async (form) => {
             let {

@@ -44,4 +44,8 @@ const Style = bookshelf.model('Style', {
     }
 })
 
-module.exports = { Record, Artist, Label, Genre, Style }
+const User = bookshelf.model('User', {
+    tableName: 'users'
+})
+
+module.exports = { Record, Artist, Label, Genre, Style, User }
