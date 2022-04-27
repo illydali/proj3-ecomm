@@ -15,19 +15,19 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('styles_genres', {
+  return db.createTable('genres_styles', {
     id: {
       type: 'int',
       primaryKey: true,
       autoIncrement: true,
     },
-    style_id: {
+    genre_id: {
       type: 'int',
       notNull: true,
       unsigned: true,
       foreignKey: {
-        name: 'styles_genres_style_fk',
-        table: 'styles',
+        name: 'genres_styles_genre_fk',
+        table: 'genres',
         rules: {
           onDelete: 'cascade',
           onUpdate: 'restrict'
@@ -35,13 +35,13 @@ exports.up = function(db) {
         mapping: 'id'
       }
     },
-    genre_id: {
+    style_id: {
       type: 'int',
       notNull: true,
       unsigned: true,
       foreignKey: {
-        name: 'styles_genres_genre_fk',
-        table: 'genres',
+        name: 'genres_styles_style_fk',
+        table: 'styles',
         rules: {
           onDelete: 'cascade',
           onUpdate: 'restrict'
@@ -53,7 +53,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return null;
+  return db.dropTable('genres_styles');
 };
 
 exports._meta = {
