@@ -1,0 +1,34 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<table clas="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>About</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each artists}}
+        <td>
+            {{this.id}}
+        </td>
+        <td>
+            {{this.name}}
+        </td>
+        <td>
+            {{this.about}}
+        </td>
+        <td>
+            <a href="/artists/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
+            <a href="/artists/{{this.id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+        {{/each}}
+    </tbody>
+</table>
+
+{{/block}}
+
+{{/extends}}

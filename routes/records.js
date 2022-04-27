@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-// #1 import in the Product model
-const {Record, Artist, Label, Genre, Style } = require('../models')
+// import in the all models
+const { Record, Artist, Label, Genre, Style } = require('../models')
 
 // importing in the forms
-const { createNewRecord, bootstrapField } = require('../forms'); 
+const { createRecordForm, bootstrapField } = require('../forms'); 
 
 async function getAllGenres() {
     const allGenres = await Genre.fetchAll().map(genre => {
@@ -44,7 +44,7 @@ router.get('/', async (req,res)=>{
 router.get('/create', async (req,res) => {
     const allGenres = await getAllGenres()
     const allLabels = await getAllLabels()
-    const createNew = createNewRecord(allGenres, allLabels);
+    const createNew = createRecordForm(allGenres, allLabels);
     res.render('records/create', {
         'form' : createNew.toHTML(bootstrapField)
     })
@@ -53,7 +53,7 @@ router.get('/create', async (req,res) => {
 router.post('/create', async(req,res)=>{
     const allGenres = getAllGenres()
     const allLabels = getAllLabels()
-    const createNew = createNewRecord(allGenres, allLabels);
+    const createNew = createRecordForm(allGenres, allLabels);
     createNew.handle(req, {
         'success': async (form) => {
             // separate out genres from the other product data
@@ -95,7 +95,7 @@ router.get('/:id/update', async (req, res) => {
     // retrieve the record
     const record = await getRecord(req.params.id)
 
-    const updateForm = createNewRecord(allGenres, allLabels);
+    const updateForm = createRecordForm(allGenres, allLabels);
 
     // fill in the existing values
     updateForm.fields.title.value = record.get('title');
@@ -128,7 +128,7 @@ router.post('/:id/update', async (req, res) => {
     // retrieve the record
     const record = await getRecord(req.params.id)
 
-    const updateForm = createNewRecord(allGenres, allLabels);
+    const updateForm = createRecordForm(allGenres, allLabels);
     
     updateForm.handle(req, {
         'success': async (form) => {

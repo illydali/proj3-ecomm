@@ -24,7 +24,7 @@ var bootstrapField = function (name, object) {
     return '<div class="form-group">' + label + widget + error + '</div>';
 };
 
-const createNewRecord = (genres, labels) => {
+const createRecordForm = (genres, labels) => {
     return forms.create({
         'title': fields.string({
             required: true,
@@ -84,4 +84,17 @@ const createNewRecord = (genres, labels) => {
     })
 }
 
-module.exports = { createNewRecord, bootstrapField }
+const createArtistForm = () => {
+    return forms.create({
+        'name' : fields.string({
+            required: true,
+            errorAfterField: true,
+        }),
+        'about' : fields.string({
+            required: true,
+            errorAfterField: true
+        })
+    })
+}
+
+module.exports = { createRecordForm, createArtistForm, bootstrapField }
