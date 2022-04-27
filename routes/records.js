@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const checkIfAuthenticated = require('../middlewares')
+const { checkIfAuthenticated } = require('../middlewares')
 
 // import in the all models
 const {

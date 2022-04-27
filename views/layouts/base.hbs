@@ -46,6 +46,20 @@
               <a class="nav-link" href="/users/profile"><i class="bi bi-file-person "style="font-size: 1.5rem; color: whitesmoke;"></i></a>
             </li>
           </ul>
+          <div>
+            {{#if user}}
+            Hi, {{user.username}}
+
+            <a href="/users/logout" class="ml-3 btn btn-primary btn-sm">Logout</a>
+
+            {{else}}
+
+            Hi, stranger
+
+            <a href="/users/login" class="ml-3 btn btn-primary btn-sm">Login</a>
+
+            {{/if}}
+          </div>
         </div>
       </nav>
     <section class="container-fluid">

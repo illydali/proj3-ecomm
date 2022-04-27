@@ -2,14 +2,14 @@ const express = require("express");
 const hbs = require("hbs");
 const wax = require("wax-on");
 require("dotenv").config();
-const moment = require('moment')
+const moment = require('moment');
 
 // adding flash and sessions
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 // create an instance of express app
-let app = express();
+ const app = express();
 
 // set the view engine
 app.set("view engine", "hbs");
@@ -44,6 +44,12 @@ app.use (session ({
   resave: false,
   saveUninitialized: true
 }))
+
+// share the user data with all hbs files
+app.use(function(req,res,next){
+  res.locals.user = req.session.user;
+  next();
+})
 
 app.use(flash())
 

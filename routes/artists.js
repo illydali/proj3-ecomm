@@ -5,6 +5,7 @@ const { Artist } = require('../models')
 
 const { createArtistForm, bootstrapField } = require('../forms');
 
+const { checkIfAuthenticated } = require('../middlewares');
 
 async function getArtist(artistId) {
     const artistToUpdate = await Artist.where({
@@ -23,14 +24,14 @@ router.get('/', async (req,res) => {
     })
 })
 
-router.get('/create', async (req,res) => {
+router.get('/create', checkIfAuthenticated, async (req,res) => {
     const createNew = await createArtistForm();
     res.render('artists/create', {
         'form': createNew.toHTML(bootstrapField)
     })
 })
 
-router.post('/create', async(req,res) => {
+router.post('/create', checkIfAuthenticated, async(req,res) => {
     const createNew = await createArtistForm();
     createNew.handle(req, {
         'success' : async (form) => {
