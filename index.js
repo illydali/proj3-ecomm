@@ -16,10 +16,10 @@ const csrf = require('csurf')
 app.use(csrf());
 app.use(function (err, req, res, next) {
   if (err && err.code == "EBADCSRFTOKEN") {
-      req.flash('error_messages', 'The form has expired. Please try again');
-      res.redirect('back');
+    req.flash('error_messages', 'The form has expired. Please try again');
+    res.redirect('back');
   } else {
-      next()
+    next()
   }
 });
 
@@ -75,9 +75,9 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
   if (req.csrfToken) {
-      res.locals.csrfToken = req.csrfToken();
+    res.locals.csrfToken = req.csrfToken();
   }
   next();
 })
@@ -87,6 +87,7 @@ const landingRoutes = require('./routes/landing')
 const recordRoutes = require('./routes/records')
 const artistRoutes = require('./routes/artists')
 const userRoutes = require('./routes/users')
+const cloudinaryRoutes = require('./routes/cloudinary')
 
 
 async function main() {
@@ -94,7 +95,7 @@ async function main() {
   app.use('/records', recordRoutes)
   app.use('/artists', artistRoutes)
   app.use('/users', userRoutes)
-
+  app.use('/cloudinary', cloudinaryRoutes)
 }
 
 main();

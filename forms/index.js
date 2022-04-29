@@ -72,10 +72,10 @@ const createRecordForm = (genres, labels) => {
             required: true,
             errorAfterField: true
         }),
-        'main_image': fields.string({
-            // add required true here later   ! important
+        // 'main_image': fields.string({
+        //     // add required true here later   ! important
 
-        }),
+        // }),
         'genres': fields.string({
             label: 'Genre',
             required: true,
@@ -83,6 +83,9 @@ const createRecordForm = (genres, labels) => {
             widget: widgets.multipleSelect(),
             choices: genres
         }),
+        'image_url' : fields.string({
+            widget: widgets.hidden()
+        })
     })
 }
 

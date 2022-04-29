@@ -7,6 +7,7 @@
             <th>#</th>
             <th>Title</th>
             <th>Label</th>
+            <th>Sleeve</th>
             <th>Description</th>
             <th>Price</th>
             <th>Released</th>
@@ -30,6 +31,11 @@
             </td>
             <td>
                 {{this.labels.name}}
+            </td>
+            <td>
+                {{#if this.image_url}}
+                    <img src="{{this.image_url}}" class="img-fluid"/>
+                {{/if}}
             </td>
             <td class="w-50">
                 {{this.description}}

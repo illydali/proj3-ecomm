@@ -56,7 +56,10 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
     const allLabels = await getAllLabels()
     const createNew = createRecordForm(allGenres, allLabels);
     res.render('records/create', {
-        'form': createNew.toHTML(bootstrapField)
+        'form': createNew.toHTML(bootstrapField),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
@@ -122,8 +125,8 @@ router.get('/:id/update', async (req, res) => {
 
     updateForm.fields.label_id.value = record.get('label_id')
 
-    // // 1 - set the image url in the poster form
-    // posterForm.fields.image_url.value = poster.get('image_url');
+    // 1 - set the image url in the record form
+    updateForm.fields.image_url.value = record.get('image_url');
 
 
     let selectedGenres = await record.related('genres').pluck('id');
@@ -132,6 +135,9 @@ router.get('/:id/update', async (req, res) => {
     res.render('records/update', {
         'form': updateForm.toHTML(bootstrapField),
         'record': record.toJSON(),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
