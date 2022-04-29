@@ -83,7 +83,7 @@ const createRecordForm = (genres, labels) => {
             widget: widgets.multipleSelect(),
             choices: genres
         }),
-        'image_url' : fields.string({
+        'image_url': fields.string({
             widget: widgets.hidden()
         })
     })
@@ -137,10 +137,44 @@ const userLoginForm = () => {
     })
 }
 
+const createSearchForm = (labels, genres) => {
+    return forms.create({
+        'title': fields.string({
+            required: false,
+            errorAfterField: true,
+        }),
+        // 'min_price': fields.string({
+        //     required: false,
+        //     errorAfterField: true,
+        //     validators: [validators.integer(), validators.min(0)]
+        // }),
+        // 'max_price': fields.string({
+        //     required: false,
+        //     errorAfterField: true,
+        //     validators: [validators.integer(), validators.min(0)]
+        // }),
+        'label_id': fields.string({
+            label: 'Record Label',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: labels
+        }),
+        'genres': fields.string({
+            label: 'Genre',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.multipleSelect(),
+            choices: genres
+        }),
+    })
+}
+
 module.exports = {
     createRecordForm,
     createArtistForm,
     createRegisterForm,
     userLoginForm,
+    createSearchForm,
     bootstrapField
 }

@@ -14,6 +14,7 @@ const {
 // importing in the forms
 const {
     createRecordForm,
+    createSearchForm,
     bootstrapField
 } = require('../forms');
 
@@ -43,12 +44,78 @@ async function getRecord(recordId) {
 
 router.get('/', async (req, res) => {
     // #2 - fetch all the products (ie, SELECT * from products)
-    let records = await Record.collection().fetch({
-        withRelated: ['labels', 'genres']
-    });
-    res.render('records/index', {
-        'records': records.toJSON() // #3 - convert collection to JSON
+    // let records = await Record.collection().fetch({
+    //     withRelated: ['labels', 'genres']
+    // });
+    // res.render('records/index', {
+    //     'records': records.toJSON() // #3 - convert collection to JSON
+    // })
+
+    const allLabels = await getAllLabels()
+    allLabels.unshift([0, 'All']);
+    const allGenres = await getAllGenres()
+    const searchForm = createSearchForm(allLabels, allGenres);
+
+    let q = Record.collection();
+
+    searchForm.handle(req, {
+        'success' : async (form) => {
+            if (form.data.title) {
+                q.where('title', 'like', '%' + form.data.title + '%');
+            }
+
+            // if (form.data.min_price) {
+            //     q.where('price', '>=', form.data.min_price);
+            // }
+
+            // if (form.data.max_price) {
+            //     q.where('price', '<=', form.data.max_price);
+            // }
+
+            if (form.data.label_id && form.data.label_id != '0') {
+                q.where('label_id', '=', form.data.label_id)
+            }
+
+            if (form.data.genres) {
+                // joining in bookshelf:
+                q.query('join', 'genres_records', 'records.id', 'record_id')
+                    .where('genre_id', 'in', form.data.genres.split(','))
+                // eqv:
+                // SELECT * FROM posters JOIN posters_tags ON posters.id = poster_id
+                // WHERE tag_id in (1,4)
+            }
+
+            let records = await q.fetch({
+                withRelated: ['labels', 'genres']
+            });
+            res.render('records/index', {
+                'records': records.toJSON(),
+                'searchForm': form.toHTML(bootstrapField)
+            })
+        },
+        'empty' : async (form) => {
+            let records = await q.fetch({
+                withRelated: ['labels' , 'genres']
+            })
+
+            res.render('records/index' , {
+                searchForm : form.toHTML(bootstrapField),
+                'records' : records.toJSON()
+            })
+        },
+        'error': async (form) => {
+            let records = await q.fetch({
+                withRelated: ['labels', 'genres']
+            })
+
+            res.render('posters/index', {
+                searchForm: form.toHTML(bootstrapField),
+                'records': records.toJSON()
+
+            })
+        },
     })
+   
 })
 
 router.get('/create', checkIfAuthenticated, async (req, res) => {

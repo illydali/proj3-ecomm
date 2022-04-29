@@ -91,6 +91,7 @@ const cloudinaryRoutes = require('./routes/cloudinary')
 
 
 async function main() {
+  app.use(express.static( "/public"));
   app.use('/', landingRoutes)
   app.use('/records', recordRoutes)
   app.use('/artists', artistRoutes)

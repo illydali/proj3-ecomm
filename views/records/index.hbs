@@ -1,6 +1,12 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
+<h4> Search </h4>
+<div class="d-flex">
+    <form method="GET">
+        {{{searchForm}}}
+        <input type="submit" class="btn btn-primary mt-3"/>
+    </form>
 <table class="'table table-striped">
     <thead>
         <tr>
@@ -37,7 +43,7 @@
                     <img src="{{this.image_url}}" class="img-fluid"/>
                 {{/if}}
             </td>
-            <td class="w-50">
+            <td>
                 {{this.description}}
             </td>
             <td>
@@ -72,6 +78,7 @@
         {{/each}}
     </tbody>
 </table>
+</div>
 {{/block}}
 
 {{/extends}}
