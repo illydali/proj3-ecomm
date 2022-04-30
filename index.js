@@ -13,7 +13,19 @@ const app = express();
 
 // import csrf
 const csrf = require('csurf')
-app.use(csrf());
+// app.use(csrf());
+const csurfInstance = csrf();  // creating a prox of the middleware
+app.use(function(req,res,next){
+    // if it is webhook url, then call next() immediately
+    // or if the url is for the api, then also exclude from csrf
+    if (req.url === '/checkout/process_payment' || 
+        req.url.slice(0,5)=='/api/') {
+        next();
+    } else {
+        csurfInstance(req,res,next);
+    }
+})
+
 app.use(function (err, req, res, next) {
   if (err && err.code == "EBADCSRFTOKEN") {
     req.flash('error_messages', 'The form has expired. Please try again');
@@ -93,6 +105,11 @@ const artistRoutes = require('./routes/artists')
 const userRoutes = require('./routes/users')
 const cloudinaryRoutes = require('./routes/cloudinary')
 const cartRoutes = require('./routes/shoppingCart')
+const checkoutRoutes = require('./routes/checkout');
+const { checkIfAuthenticated } = require("./middlewares");
+const api = {
+  records: require('./routes/api/records')
+}
 
 
 async function main() {
@@ -103,6 +120,8 @@ async function main() {
   app.use('/users', userRoutes)
   app.use('/cloudinary', cloudinaryRoutes)
   app.use('/cart', cartRoutes)
+  app.use('/checkout', checkoutRoutes)
+  app.use('/api/records', express.json(), api.records)
 }
 
 main();
