@@ -18,29 +18,32 @@ const {
     bootstrapField
 } = require('../forms');
 
-async function getAllGenres() {
-    const allGenres = await Genre.fetchAll().map(genre => {
-        return [genre.get('id'), genre.get('name')]
-    })
-    return allGenres;
-}
+// import in the dal
+const dataLayer = require('../dal/records')
 
-async function getAllLabels() {
-    const allLabels = await Label.fetchAll().map(label => {
-        return [label.get('id'), label.get('name')]
-    })
-    return allLabels
-}
+// async function getAllGenres() {
+//     const allGenres = await Genre.fetchAll().map(genre => {
+//         return [genre.get('id'), genre.get('name')]
+//     })
+//     return allGenres;
+// }
 
-async function getRecord(recordId) {
-    const recordToUpdate = await Record.where({
-        'id': recordId
-    }).fetch({
-        require: true,
-        withRelated: ['genres']
-    })
-    return recordToUpdate
-}
+// async function getAllLabels() {
+//     const allLabels = await Label.fetchAll().map(label => {
+//         return [label.get('id'), label.get('name')]
+//     })
+//     return allLabels
+// }
+
+// async function getRecord(recordId) {
+//     const recordToUpdate = await Record.where({
+//         'id': recordId
+//     }).fetch({
+//         require: true,
+//         withRelated: ['genres']
+//     })
+//     return recordToUpdate
+// }
 
 router.get('/', async (req, res) => {
     // #2 - fetch all the products (ie, SELECT * from products)
@@ -50,10 +53,9 @@ router.get('/', async (req, res) => {
     // res.render('records/index', {
     //     'records': records.toJSON() // #3 - convert collection to JSON
     // })
-
-    const allLabels = await getAllLabels()
+    const allLabels = await dataLayer.getAllLabels()
     allLabels.unshift([0, 'All']);
-    const allGenres = await getAllGenres()
+    const allGenres = await dataLayer.getAllGenres()
     const searchForm = createSearchForm(allLabels, allGenres);
 
     let q = Record.collection();
@@ -86,7 +88,7 @@ router.get('/', async (req, res) => {
             }
 
             let records = await q.fetch({
-                withRelated: ['labels', 'genres']
+                withRelated: ['labels', 'genres', 'artists']
             });
             res.render('records/index', {
                 'records': records.toJSON(),
@@ -95,7 +97,7 @@ router.get('/', async (req, res) => {
         },
         'empty' : async (form) => {
             let records = await q.fetch({
-                withRelated: ['labels' , 'genres']
+                withRelated: ['labels' , 'genres', 'artists']
             })
 
             res.render('records/index' , {
@@ -105,10 +107,10 @@ router.get('/', async (req, res) => {
         },
         'error': async (form) => {
             let records = await q.fetch({
-                withRelated: ['labels', 'genres']
+                withRelated: ['labels', 'genres', 'artists']
             })
 
-            res.render('posters/index', {
+            res.render('records/index', {
                 searchForm: form.toHTML(bootstrapField),
                 'records': records.toJSON()
 
@@ -119,8 +121,8 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/create', checkIfAuthenticated, async (req, res) => {
-    const allGenres = await getAllGenres()
-    const allLabels = await getAllLabels()
+    const allGenres = await dataLayer.getAllGenres()
+    const allLabels = await dataLayer.getAllLabels()
     const createNew = createRecordForm(allGenres, allLabels);
     res.render('records/create', {
         'form': createNew.toHTML(bootstrapField),
@@ -131,8 +133,8 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
 })
 
 router.post('/create', checkIfAuthenticated, async (req, res) => {
-    const allGenres = getAllGenres()
-    const allLabels = getAllLabels()
+    const allGenres = dataLayer.getAllGenres()
+    const allLabels = dataLayer.getAllLabels()
     const createNew = createRecordForm(allGenres, allLabels);
     createNew.handle(req, {
         'success': async (form) => {
@@ -173,10 +175,10 @@ router.post('/create', checkIfAuthenticated, async (req, res) => {
 
 // update records
 router.get('/:id/update', async (req, res) => {
-    const allGenres = await getAllGenres()
-    const allLabels = await getAllLabels()
+    const allGenres = await dataLayer.getAllGenres()
+    const allLabels = await dataLayer.getAllLabels()
     // retrieve the record
-    const record = await getRecord(req.params.id)
+    const record = await dataLayer.getRecord(req.params.id)
 
     const updateForm = createRecordForm(allGenres, allLabels);
 
@@ -209,10 +211,10 @@ router.get('/:id/update', async (req, res) => {
 })
 
 router.post('/:id/update', async (req, res) => {
-    const allGenres = getAllGenres()
-    const allLabels = getAllLabels()
+    const allGenres = dataLayer.getAllGenres()
+    const allLabels = dataLayer.getAllLabels()
     // retrieve the record
-    const record = await getRecord(req.params.id)
+    const record = await dataLayer.getRecord(req.params.id)
 
     const updateForm = createRecordForm(allGenres, allLabels);
 
@@ -250,7 +252,7 @@ router.post('/:id/update', async (req, res) => {
 
 router.get('/:id/delete', async (req, res) => {
     // fetch the record using id that we want to delete
-    const record = await getRecord(req.params.id)
+    const record = await dataLayer.getRecord(req.params.id)
 
     res.render('records/delete', {
         'record': record.toJSON()
@@ -259,7 +261,7 @@ router.get('/:id/delete', async (req, res) => {
 });
 
 router.post('/:id/delete', async (req, res) => {
-    const record = await getRecord(req.params.id)
+    const record = await dataLayer.getRecord(req.params.id)
 
     await record.destroy();
     req.flash("success_messages", `${record.get('title')} has been deleted`)

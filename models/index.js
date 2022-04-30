@@ -2,7 +2,7 @@ const bookshelf = require('../bookshelf')
 
 const Record = bookshelf.model('Record', {
     tableName: 'records',
-    artist() {
+    artists() {
         return this.belongsTo('Artist')
     },
     labels() { 
