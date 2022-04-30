@@ -19,11 +19,12 @@ exports.up = function(db) {
     id: {
       type: 'int',
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      unsigned: true
     },
     username: {
       type: 'string',
-      length: 100,
+      length: 50,
     },
     password: {
       type: 'string',
@@ -33,20 +34,20 @@ exports.up = function(db) {
       type: 'string',
       length: 320,
     },
-    full_name: {
+    role: {
       type: 'string',
-      length: 100
+      length: 30,
+      notNull: true
     },
-    address: {
-      type: 'string',
-      length: 100
+    last_login: {
+      type: 'datetime'
     },
-    contact: {
-      type: 'int',
-      unsigned: true,
+    created: {
+      type: 'datetime',
+      notNull: true
     },
-    birth_date: {
-      type: 'date'
+    modified: {
+      type: 'datetime'
     }
   });
 };

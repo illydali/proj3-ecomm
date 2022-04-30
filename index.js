@@ -29,6 +29,10 @@ hbs.handlebars.registerHelper("formatDate", function (datetime) {
   return moment(datetime).format('YYYY, D MMM');
 })
 
+hbs.handlebars.registerHelper("formatDateTime", function (datetime) {
+  return moment(datetime).format('LLL');
+})
+
 hbs.handlebars.registerHelper("dollarAmount", function (price) {
   let dollars = price / 100;
   dollars = dollars.toLocaleString("en-SG", {

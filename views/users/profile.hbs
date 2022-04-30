@@ -4,7 +4,9 @@
 <h1>{{user.username}}'s Profile</h1>
 <ul>
     <li>Username: {{user.username}}</li>
-    <li>Email:{{user.email}}</li>
+    <li>Email: {{user.email}}</li>
+    <li>Last Login: {{formatDateTime user.last_login}}</li>
+    <li>Access: {{user.role}}</li>
 </ul>
 
 {{/block}}
