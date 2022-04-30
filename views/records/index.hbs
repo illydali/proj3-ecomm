@@ -10,6 +10,7 @@
 <table class="'table table-striped">
     <thead>
         <tr>
+            <th></th>
             <th>#</th>
             <th>Title</th>
             <th>Artist</th>
@@ -30,6 +31,9 @@
     <tbody>
         {{#each records}}
         <tr>
+            <td>
+             <a href="/cart/add/{{this.id}}" class="btn btn-info text-light btn-sm">Buy Now</a> 
+            </td>
             <td>
                 {{this.id}}
             </td>

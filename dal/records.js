@@ -25,7 +25,7 @@ async function getRecord(recordId) {
         'id': recordId
     }).fetch({
         require: true,
-        withRelated: ['genres']
+        withRelated: ['genres', 'labels', 'artists']
     })
     return recordToUpdate
 }

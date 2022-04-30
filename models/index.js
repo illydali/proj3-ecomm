@@ -5,7 +5,7 @@ const Record = bookshelf.model('Record', {
     artists() {
         return this.belongsTo('Artist')
     },
-    labels() { 
+    labels() {
         return this.belongsTo('Label')
     },
     genres() {
@@ -55,4 +55,20 @@ const Customer = bookshelf.model('Customer', {
     }
 })
 
-module.exports = { Record, Artist, Label, Genre, Style, User, Customer }
+const CartItem = bookshelf.model('CartItem', {
+    tableName: 'cart_items',
+    record() {
+        return this.belongsTo('Record')
+    }
+})
+
+module.exports = {
+    Record,
+    Artist,
+    Label,
+    Genre,
+    Style,
+    User,
+    Customer,
+    CartItem
+}

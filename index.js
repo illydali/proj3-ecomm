@@ -92,6 +92,7 @@ const recordRoutes = require('./routes/records')
 const artistRoutes = require('./routes/artists')
 const userRoutes = require('./routes/users')
 const cloudinaryRoutes = require('./routes/cloudinary')
+const cartRoutes = require('./routes/shoppingCart')
 
 
 async function main() {
@@ -101,6 +102,7 @@ async function main() {
   app.use('/artists', artistRoutes)
   app.use('/users', userRoutes)
   app.use('/cloudinary', cloudinaryRoutes)
+  app.use('/cart', cartRoutes)
 }
 
 main();
