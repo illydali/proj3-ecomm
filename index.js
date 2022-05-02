@@ -109,11 +109,11 @@ const userRoutes = require('./routes/users')
 const cloudinaryRoutes = require('./routes/cloudinary')
 const cartRoutes = require('./routes/shoppingCart')
 const checkoutRoutes = require('./routes/checkout');
-const { checkIfAuthenticated } = require("./middlewares");
+const { checkIfAuthenticated, checkIfAuthenticatedJWT } = require("./middlewares");
 const api = {
   records: require('./routes/api/records'),
-  users: require('./routes/api/users')
-
+  users: require('./routes/api/users'),
+  cart: require('./routes/api/cart')
 }
 
 
@@ -128,6 +128,7 @@ async function main() {
   app.use('/checkout', checkoutRoutes)
   app.use('/api/records', express.json(), api.records)
   app.use('/api/users', express.json(), api.users)
+  app.use('/api/cart', checkIfAuthenticatedJWT, express.json(), api.cart)
 }
 
 main();

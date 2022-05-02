@@ -22,7 +22,7 @@ const getCartItemByUserAndRecord = async (userId, recordId) => {
     });
 }
 
-async function createCartItem(userId, recordId, quantity) {
+const createCartItem = async (userId, recordId, quantity) => {
     // an instance of a model represents one row in the table
     // so to create a new row, simply create a new instance
     // of the model
@@ -36,14 +36,14 @@ async function createCartItem(userId, recordId, quantity) {
     return cartItem;
 }
 
-async function updateCartItemQuantity(userId, recordId, quantity) {
+const updateCartItemQuantity = async (userId, recordId, quantity) => {
     let cartItem = await getCartItemByUserAndRecord(userId, recordId);
     cartItem.set('quantity', quantity);
     await cartItem.save();
     return cartItem;
 }
 
-async function removeFromCart(userId, recordId) {
+const removeFromCart = async (userId, recordId) => {
     let cartItem = await getCartItemByUserAndRecord(userId, recordId);
     await cartItem.destroy();
 }

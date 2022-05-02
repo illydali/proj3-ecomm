@@ -15,7 +15,8 @@ const {
 const {
     createRecordForm,
     createSearchForm,
-    bootstrapField
+    bootstrapField,
+    bootstrapFieldCol6
 } = require('../forms');
 
 // import in the dal
@@ -125,7 +126,7 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
     const allLabels = await dataLayer.getAllLabels()
     const createNew = createRecordForm(allGenres, allLabels);
     res.render('records/create', {
-        'form': createNew.toHTML(bootstrapField),
+        'form': createNew.toHTML(bootstrapFieldCol6),
         cloudinaryName: process.env.CLOUDINARY_NAME,
         cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET

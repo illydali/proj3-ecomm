@@ -1,16 +1,19 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
+<div class="row">
 <h4> Search </h4>
-<div class="d-flex">
+<div class="col col-3 ">
     <form method="GET">
         {{{searchForm}}}
         <input type="submit" class="btn btn-primary mt-3"/>
     </form>
+    </div>
+    <div class="col col-9">
 <table class="'table table-striped">
     <thead>
         <tr>
-            <th></th>
+            
             <th>#</th>
             <th>Title</th>
             <th>Artist</th>
@@ -31,9 +34,9 @@
     <tbody>
         {{#each records}}
         <tr>
-            <td>
+            {{!-- <td>
              <a href="/cart/add/{{this.id}}" class="btn btn-info text-light btn-sm">Buy Now</a> 
-            </td>
+            </td> --}}
             <td>
                 {{this.id}}
             </td>
@@ -86,6 +89,7 @@
         {{/each}}
     </tbody>
 </table>
+</div>
 </div>
 {{/block}}
 

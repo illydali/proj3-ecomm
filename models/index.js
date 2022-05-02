@@ -59,6 +59,9 @@ const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
     record() {
         return this.belongsTo('Record')
+    },
+    user() {
+        return this.belongsTo('User')
     }
 })
 

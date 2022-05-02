@@ -4,7 +4,9 @@
 <h1>Add New Record</h1>
 <form method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+    <div class="row">
     {{{form}}}
+    </div>
     <div>
       <a href="#" class="btn btn-primary mt-3" id="upload_widget">Upload</a>
       <img src="" style="display:none" id="uploaded_image"/>
