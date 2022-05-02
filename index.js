@@ -1,6 +1,7 @@
 const express = require("express");
 const hbs = require("hbs");
 const wax = require("wax-on");
+const cors = require('cors')
 require("dotenv").config();
 const moment = require('moment');
 
@@ -68,6 +69,8 @@ app.use(
   })
 );
 
+app.use(cors())
+
 // set up sessions
 app.use(session({
   store: new FileStore(),
@@ -108,7 +111,9 @@ const cartRoutes = require('./routes/shoppingCart')
 const checkoutRoutes = require('./routes/checkout');
 const { checkIfAuthenticated } = require("./middlewares");
 const api = {
-  records: require('./routes/api/records')
+  records: require('./routes/api/records'),
+  users: require('./routes/api/users')
+
 }
 
 
@@ -119,9 +124,10 @@ async function main() {
   app.use('/artists', artistRoutes)
   app.use('/users', userRoutes)
   app.use('/cloudinary', cloudinaryRoutes)
-  app.use('/cart', cartRoutes)
+  app.use('/cart', checkIfAuthenticated, cartRoutes)
   app.use('/checkout', checkoutRoutes)
   app.use('/api/records', express.json(), api.records)
+  app.use('/api/users', express.json(), api.users)
 }
 
 main();

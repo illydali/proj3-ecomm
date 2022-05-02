@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
     // step 2 - create stripe payment
     let metaData = JSON.stringify(meta);
     const payment = {
-        customer_email: user.email,
+       
         payment_method_types: ['card'],
         line_items: lineItems,
         success_url: process.env.STRIPE_SUCCESS_URL + '?sessionId={CHECKOUT_SESSION_ID}',
@@ -80,7 +80,7 @@ router.post('/process_payment', express.raw({
             "error": e.message
         })
     }
-    console.log(event)
+    console.log(event.type)
     if (event.type === 'checkout.session.completed') {
         let stripeSession = event.data.object;
         console.log(stripeSession);
