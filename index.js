@@ -113,7 +113,8 @@ const { checkIfAuthenticated, checkIfAuthenticatedJWT } = require("./middlewares
 const api = {
   records: require('./routes/api/records'),
   users: require('./routes/api/users'),
-  cart: require('./routes/api/cart')
+  cart: require('./routes/api/cart'),
+  checkout: require('./routes/api/checkout')
 }
 
 
@@ -128,7 +129,8 @@ async function main() {
   app.use('/checkout', checkoutRoutes)
   app.use('/api/records', express.json(), api.records)
   app.use('/api/users', express.json(), api.users)
-  app.use('/api/cart', checkIfAuthenticatedJWT, express.json(), api.cart)
+  app.use('/api/cart', express.json(), api.cart) // add auth later
+  app.use('/api/checkout', express.json(), api.checkout)
 }
 
 main();
