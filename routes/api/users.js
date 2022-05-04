@@ -16,9 +16,10 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-const generateToken = (user, secret, expiry) => {
+const generateAccessToken = (user, secret, expiry) => {
     // three arguments:
-    // arg 1: JWT payload
+    // arg 1: JWT payload - unique identifier required- aka id
+    // anything else u want client to remember eg email, role
     // arg 2: token secret
     // arg 3: configuration expiration object
     return jwt.sign({
@@ -38,8 +39,8 @@ router.post('/login', async(req,res)=>{
     });
 
     if (user && user.get('password') == getHashedPassword(req.body.password)){
-        let accessToken = generateToken(user.toJSON(), process.env.TOKEN_SECRET, "15m");
-        let refreshToken = generateToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, "1h");
+        let accessToken = generateAccessToken(user.toJSON(), process.env.TOKEN_SECRET, "15m");
+        let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, "1h");
         res.send({
             'accessToken': accessToken,
             'refreshToken': refreshToken
@@ -79,7 +80,7 @@ router.post('/refresh', async function(req,res){
             return res.sendStatus(401);
         }
         // create the new access token
-        let accessToken = generateToken(payload, process.env.TOKEN_SECRET, '15m');
+        let accessToken = generateAccessToken(payload, process.env.TOKEN_SECRET, '15m');
         res.send({
             accessToken
         })

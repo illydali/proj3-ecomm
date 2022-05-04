@@ -69,6 +69,10 @@ const BlacklistedToken = bookshelf.model('BlacklistedToken', {
     tableName: 'blacklisted_tokens'
 })
 
+const Order = bookshelf.model('Order', {
+    tableName: 'Order'
+})
+
 module.exports = {
     Record,
     Artist,
@@ -78,5 +82,6 @@ module.exports = {
     User,
     Customer,
     CartItem,
-    BlacklistedToken
+    BlacklistedToken,
+    Order 
 }
