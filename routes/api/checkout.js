@@ -1,4 +1,5 @@
-const express = require("express")
+const express = require("express");
+const { removeFromCart } = require("../../dal/cart_items");
 const router = express.Router();
 
 const {
@@ -13,15 +14,18 @@ const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 // /api/checkout?user_id=1
 router.get('/', async (req, res) => {
     const cart = new CartServices(req.query.user_id);
+    const userId = req.query.user_id
 
     // get all the items from the cart
     let items = await cart.getCart();
 
-    // let user = await User.where({
-    //     'id': req.params.user_id
-    // }).fetch({
-    //     require: true
-    // })
+    let user = await User.where({
+        'id': userId
+    }).fetch({
+        require: true
+    })
+
+    console.log(userId)
 
     // step 1 - create line items
     let lineItems = [];
@@ -49,7 +53,7 @@ router.get('/', async (req, res) => {
     let metaData = JSON.stringify(meta);
     const payment = {
         // client_reference_id: user.id,
-        // customer_email: user.get('email'),
+        customer_email: user.get('email'),
         payment_method_types: ['card'],
         line_items: lineItems,
         success_url: process.env.STRIPE_SUCCESS_URL + '?sessionId={CHECKOUT_SESSION_ID}',
@@ -81,39 +85,7 @@ router.get('/cancelled', function (req, res) {
     res.send('ERROR: GO AND REDO!')
 })
 
-// router.post('/process_payment', express.raw({
-//     'type':'application/json'
-// }), function(req,res){
-//     let payload = req.body;
-//     // console.log(payload)
-    
-//     let endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
-//     // console.log(endpointSecret)
-    
-//     let sigHeader = req.headers['stripe-signature'];
-//     console.log(sigHeader)
-    
-//     let event;
-//     try {
-//         event = Stripe.webhooks.constructEvent(payload, sigHeader, endpointSecret);
-//     } catch(e) {
-//         res.send({
-//             "error": e.message
-//         })
-//         console.log(e.message)
-//     }
-//     console.log(event)
-//     if (event.type === 'checkout.session.completed') {
-//         let stripeSession = event.data.object;
-//         console.log(stripeSession)
-//     }
-//     res.send({
-//         'recieved': true
-//     })
-// })
-// this is the webhook route
-// stripe will send a POST request to this route when a
-// payment is completed
+
 router.post('/process_payment', express.raw({
     'type': 'application/json'
 }), async function (req, res) {
@@ -140,6 +112,7 @@ router.post('/process_payment', express.raw({
         console.log(event.data.object)
         console.log(stripeSession.metadata);
     }
+
     res.send({
         'received': true
     })

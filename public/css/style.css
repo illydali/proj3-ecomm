@@ -1,3 +1,6 @@
+* {
+    font-family: 'Inconsolata', monospace;
+}
 .table {
     table-layout: auto;
 }

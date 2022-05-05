@@ -1,9 +1,14 @@
-const getHashedPassword = (password) => {
-    const sha256 = crypto.createHash('sha256');
-    const hash = sha256.update(password).digest('base64');
-    return hash;
+const { User } = require('../models');
+
+async function getAllUsers() {
+    let users = await User.where({
+        'role' : 'Customer'
+    }).fetchAll({
+        require: false
+    })
+    return users
 }
 
 module.exports = {
-    getHashedPassword
+    getAllUsers,
 }
