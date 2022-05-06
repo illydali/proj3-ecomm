@@ -25,7 +25,7 @@ exports.up = function(db) {
       mapping: 'id',
       rules: {
         onDelete: 'cascade',
-        onUpdate: 'cascade'
+        onUpdate: 'restrict'
       }
     }
   });

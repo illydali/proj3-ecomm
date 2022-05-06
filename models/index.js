@@ -70,6 +70,19 @@ const Order = bookshelf.model('Order', {
     tableName: 'Order',
     customer() {
         return this.belongsTo('Customer')
+    },
+    orderItems() {
+        return this.hasMany('OrderItem')
+    }
+})
+
+const OrderItem = bookshelf.model('OrderItem', {
+    tableName: 'order_items',
+    order() {
+        return this.belongsTo('Order')
+    },
+    record() {
+        return this.belongsTo('Record')
     }
 })
 
@@ -87,5 +100,6 @@ module.exports = {
     Customer,
     CartItem,
     Order,
+    OrderItem,
     BlacklistedToken
 }
