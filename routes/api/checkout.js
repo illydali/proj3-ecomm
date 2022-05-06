@@ -1,10 +1,14 @@
 const express = require("express");
-const { removeFromCart } = require("../../dal/cart_items");
+const {
+    removeFromCart
+} = require("../../dal/cart_items");
 const router = express.Router();
 
 const {
     CartItem,
-    User
+    Order,
+    User,
+    OrderItem
 } = require('../../models');
 
 const CartServices = require('../../services/cart_services')
@@ -12,6 +16,7 @@ const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 
 // /api/checkout?user_id=1
+// chg port to public
 router.get('/', async (req, res) => {
     const cart = new CartServices(req.query.user_id);
     const userId = req.query.user_id
@@ -45,14 +50,13 @@ router.get('/', async (req, res) => {
         meta.push({
             'record_id': item.get('record_id'),
             'quantity': item.get('quantity'),
-            // 'user_id': user.get('id')
-        })
+         })
     }
 
     // step 2 - create stripe payment && stringify for metadata use later 
     let metaData = JSON.stringify(meta);
     const payment = {
-        // client_reference_id: user.id,
+        client_reference_id: user.id,
         customer_email: user.get('email'),
         payment_method_types: ['card'],
         line_items: lineItems,
@@ -105,12 +109,35 @@ router.post('/process_payment', express.raw({
         console.log(e.message)
     }
 
+    // let user = await User.where({
+    //     'id': 
+    // }).fetch({
+    //     require: true
+    // })
+
     console.log(event)
     if (event.type == 'checkout.session.completed') {
         let stripeSession = event.data.object;
         console.log(stripeSession);
         console.log(event.data.object)
         console.log(stripeSession.metadata);
+
+        const order = new Order()
+        order.set('order_status', 'Paid'),
+        order.set('order_date', new Date()),
+        order.set('payment_status', stripeSession.payment_status),
+        order.set('payment_total', stripeSession.amount_total),
+        order.set('payment_mode', stripeSession.payment_method_types[0])
+        order.set('user_id', stripeSession.client_reference_id)
+
+
+        // const orderData= new OrderItem()
+        
+
+        await order.save()
+
+
+
     }
 
     res.send({

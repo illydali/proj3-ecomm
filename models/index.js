@@ -48,13 +48,6 @@ const User = bookshelf.model('User', {
     tableName: 'users'
 })
 
-const Customer = bookshelf.model('Customer', {
-    tableName: 'customers',
-    user() {
-        return this.belongsTo('User');
-    }
-})
-
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
     record() {
@@ -67,9 +60,9 @@ const CartItem = bookshelf.model('CartItem', {
 
 
 const Order = bookshelf.model('Order', {
-    tableName: 'Order',
-    customer() {
-        return this.belongsTo('Customer')
+    tableName: 'orders',
+    user() {
+        return this.belongsTo('User')
     },
     orderItems() {
         return this.hasMany('OrderItem')
@@ -97,7 +90,6 @@ module.exports = {
     Genre,
     Style,
     User,
-    Customer,
     CartItem,
     Order,
     OrderItem,

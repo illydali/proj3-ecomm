@@ -1,0 +1,2 @@
+const { Customer } = require('../models')
+
