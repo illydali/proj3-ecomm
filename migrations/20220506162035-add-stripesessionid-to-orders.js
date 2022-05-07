@@ -15,24 +15,14 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.addColumn('customers', 'user_id', {
-    type: 'int',
-    unsigned: true,
-    notNull: true,
-    foreignKey: {
-      name: 'customer_user_fk',
-      table: 'users',
-      rules: {
-        onDelete: 'cascade',
-        onUpdate: 'restrict'
-      },
-      mapping: 'id'
-    }
+  return db.addColumn('orders', 'stripe_payment_id', {
+    type: 'string',
+    length: 250
   });
 };
 
 exports.down = function(db) {
-  return null;
+  return db.removeColumn('orders', 'stripe_payment_id');
 };
 
 exports._meta = {

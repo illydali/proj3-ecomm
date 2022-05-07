@@ -107,9 +107,8 @@ const recordRoutes = require('./routes/records')
 const artistRoutes = require('./routes/artists')
 const userRoutes = require('./routes/users')
 const cloudinaryRoutes = require('./routes/cloudinary')
-const cartRoutes = require('./routes/shoppingCart')
-const checkoutRoutes = require('./routes/checkout');
 const customerRoutes = require('./routes/customers')
+const orderRoutes = require('./routes/orders')
 const { checkIfAuthenticated, checkIfAuthenticatedJWT } = require("./middlewares");
 
 const api = {
@@ -128,8 +127,7 @@ async function main() {
   app.use('/users', userRoutes)
   app.use('/cloudinary', cloudinaryRoutes)
   app.use('/customers', customerRoutes)
-  app.use('/cart', checkIfAuthenticated, cartRoutes)
-  // app.use('/checkout', checkoutRoutes)
+  app.use('/orders', orderRoutes)
   app.use('/api/records', express.json(), api.records)
   app.use('/api/users', express.json(), api.users)
   app.use('/api/cart', express.json(), api.cart) // add auth later

@@ -44,15 +44,15 @@ class CartServices {
     }
 
     // create order and save to orders table
-    async createOrderStripePaid (stripeSession) {
-        if (order) {
-            order.set('order_status', 'Paid'),
-            order.set('order_date', new Date()),
-            order.set('payment_status', stripeSession.payment_status),
-            order.set('payment_total', stripeSession.amount_total),
-            order.set('payment_mode', stripeSession.payment_method_types[0])
-        }
-    }
+    // async createOrderStripePaid (stripeSession) {
+    //     if (order) {
+    //         order.set('order_status', 'Paid'),
+    //         order.set('order_date', new Date()),
+    //         order.set('payment_status', stripeSession.payment_status),
+    //         order.set('payment_total', stripeSession.amount_total),
+    //         order.set('payment_mode', stripeSession.payment_method_types[0])
+    //     }
+    // }
 
 }
 

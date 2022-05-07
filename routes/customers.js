@@ -1,24 +1,25 @@
 const express = require('express');
 const router = express.Router();
 
-const { Customer } = require('../models');
+const { User } = require('../models');
 
-async function getCustomerByUserId(userId) {
-    let customer = await Customer.where({
-        user_id: userId
+async function getUserById(userId) {
+    let customer = await User.where({
+        user_id: userId,
+        role: 'Customer'
     }).fetch({
         require: false,
-        withRelated: ['user']
     })
     return customer
 } 
 
 router.get('/', async (req, res) => {
     // fetch all the customers
-    let customers = await Customer.collection()
-    .fetch({
+    let customers = await User.where({
+        role: 'Customer'
+    })
+    .fetchAll({
         require: false,
-        withRelated: [ 'user']
     });
 
     let customersJSON = customers.toJSON();

@@ -1,7 +1,4 @@
 const express = require("express");
-const {
-    removeFromCart
-} = require("../../dal/cart_items");
 const router = express.Router();
 
 const {
@@ -50,7 +47,7 @@ router.get('/', async (req, res) => {
         meta.push({
             'record_id': item.get('record_id'),
             'quantity': item.get('quantity'),
-         })
+        })
     }
 
     // step 2 - create stripe payment && stringify for metadata use later 
@@ -109,35 +106,47 @@ router.post('/process_payment', express.raw({
         console.log(e.message)
     }
 
-    // let user = await User.where({
-    //     'id': 
-    // }).fetch({
-    //     require: true
-    // })
-
-    console.log(event)
     if (event.type == 'checkout.session.completed') {
         let stripeSession = event.data.object;
         console.log(stripeSession);
-        console.log(event.data.object)
         console.log(stripeSession.metadata);
 
+        let purchases = JSON.parse(event.data.object.metadata.orders)
+
+        // retrieve user info
+        const user = await User.where({
+            'id': stripeSession.client_reference_id
+        }).fetch({
+            require: false
+        });
+
+        // The owner is able to set an order to be pending, paid, processing, shipped or completed 
+
         const order = new Order()
-        order.set('order_status', 'Paid'),
-        order.set('order_date', new Date()),
-        order.set('payment_status', stripeSession.payment_status),
-        order.set('payment_total', stripeSession.amount_total),
+        order.set('order_status', 'Paid')
+        order.set('order_date', new Date())
+        order.set('payment_status', stripeSession.payment_status)
+        order.set('payment_total', stripeSession.amount_total)
         order.set('payment_mode', stripeSession.payment_method_types[0])
         order.set('user_id', stripeSession.client_reference_id)
-
-
-        // const orderData= new OrderItem()
-        
+        order.set('stripe_payment_id', stripeSession.id)
 
         await order.save()
 
+        // save order details into orders
+        for (let item of purchases) {
+            const orderItem = new OrderItem();
+            orderItem.set('order_id', order.get('id'))
+            orderItem.set('record_id', item.record_id)
+            orderItem.set('quantity', item.quantity)
+            orderItem.save()
+        }
 
-
+        // Delete items from cart
+        const cartServices = new CartServices(user.id)
+        for (let item of purchases) {
+            await cartServices.removeFromCart(item.record_id)
+        }
     }
 
     res.send({
