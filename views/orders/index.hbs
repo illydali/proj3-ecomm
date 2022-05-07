@@ -1,6 +1,7 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
+<div class='container mt-3'>
 <table class="table">
     <thead>
         <tr>
@@ -34,7 +35,7 @@
                 {{formatDate this.order_date}}
             </td>
             <td>
-                {{this.order_status}}
+                {{this.status.action}}
             </td>
             <td>
                 {{dollarAmount this.payment_total}}
@@ -55,7 +56,7 @@
 
     </tbody>
 </table>
-
+</div>
 
 {{/block}}
 

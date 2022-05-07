@@ -2,25 +2,53 @@
 
 {{#block "content"}}
 
+<div class="container mt-3">
+   
+    <div class="row">
+        <div class="line"></div>
+        <div class="col-6">
+            <p>Order ID : {{orderInfo.id}}</p>
+            <p>Customer Name : {{orderInfo.user.first_name}} {{orderInfo.user.last_name}}</p>
+            <p>Customer Address : {{orderInfo.user.address}}</p>
+            <p>User Id : {{orderInfo.user_id}}</p>
+            <p>Total Cost : {{dollarAmount orderInfo.payment_total}}</p>
+            <p>Date Of order : {{formatDate orderInfo.order_date}}</p>
 
-<div>
-    {{#each orderInfo.orderItems }}
-    <p>{{this.id}}</p>
-    <p>{{this.user.id}}</p>
-    <p>{{this.order_date}}</p>
-    <p>{{this.first_name}}</p>
-    <p>{{this.quantity}}</p>
-    <p>{{this.record.title}}</p>
-    
-    {{/each}}
-</div>
-
-<div class="col-6">
+        </div>
+       <div class="col-6">
             <form method="POST">
                 <input type="hidden" name="_csrf" value="{{csrfToken}}" />
                 {{{form}}}
-                <input type="submit" class="cta" value="Update" id="update">
+                <input type="submit" value="Update" id="update" class="'btn btn-secondary">
             </form>
         </div>
+    </div>
+    <div>
+        <h4 class="pt-3 pb-3">PURCHASE INFORMATION</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Record ID</th>
+                    
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orderDetails}}
+                <tr>
+                    <td>{{this.record.id}}</td>
+                   
+                    <td>{{this.record.title}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td>{{dollarAmount this.record.price}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 {{/block}}
 {{/extends}}
