@@ -53,6 +53,40 @@ router.post('/login', async(req,res)=>{
     }
 })
 
+router.post('/register', async (req, res) => {
+    // Check if email is already in use
+    let checkEmail = await User.where({
+        'email': req.body.email
+    }).fetch({
+        require: false
+    })
+    if (checkEmail) {
+        res.send('Email in use')
+    } else {
+        try {
+            // Add user into table
+            const user = new User()
+            user.set('username', req.body.username)
+            user.set('first_name', req.body.first_name)
+            user.set('last_name', req.body.last_name)
+            user.set('email', req.body.email)
+            user.set('password', getHashedPassword(req.body.password))
+            user.set('address', req.body.address)
+            user.set('contact', req.body.contact)
+            user.set('birthdate', req.body.birthdate)
+            user.set('role', 'Customer')
+            user.set('created', new Date())
+            await user.save()
+
+            res.send(user)
+        } catch (e) {
+            console.log(e)
+            res.send('Unable to create user')
+        }
+    }
+})
+
+
 router.post('/refresh', async function(req,res){
     const refreshToken = req.body.refreshToken;
     if (!refreshToken) {
