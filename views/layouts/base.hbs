@@ -45,20 +45,21 @@
               <a class="nav-link" href="/orders">Orders</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/users/profile"><i class="bi bi-file-person "style="font-size: 1.5rem; color: whitesmoke;"></i></a>
+              <a class="nav-link" href="/customers">Customer List</a>
             </li>
           </ul>
           <div>
             {{#if user}}
+             <a href="/users/profile"><i class="bi bi-file-person" style="font-size: 1.5rem; color: whitesmoke;"></i></a>
             Hi, {{user.username}}
 
-            <a href="/users/logout" class="ml-3 btn btn-primary btn-sm">Logout</a>
-
+            <a href="/users/logout" class="ml-3 btn btn-light btn-sm">Logout</a>
+           
             {{else}}
 
             Hi, stranger
 
-            <a href="/users/login" class="ml-3 btn btn-primary btn-sm">Login</a>
+            <a href="/users/login" class="ml-3 btn btn-light btn-sm">Login</a>
 
             {{/if}}
           </div>

@@ -5,7 +5,8 @@ const {
     CartItem,
     Order,
     User,
-    OrderItem
+    OrderItem,
+    Status
 } = require('../../models');
 
 const CartServices = require('../../services/cart_services')
@@ -123,7 +124,7 @@ router.post('/process_payment', express.raw({
         // The owner is able to set an order to be pending, paid, processing, shipped or completed 
 
         const order = new Order()
-        order.set('order_status', 'Paid')
+        order.set('status_id', 1)
         order.set('order_date', new Date())
         order.set('payment_status', stripeSession.payment_status)
         order.set('payment_total', stripeSession.amount_total)

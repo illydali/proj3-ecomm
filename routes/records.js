@@ -22,29 +22,6 @@ const {
 // import in the dal
 const dataLayer = require('../dal/records')
 
-// async function getAllGenres() {
-//     const allGenres = await Genre.fetchAll().map(genre => {
-//         return [genre.get('id'), genre.get('name')]
-//     })
-//     return allGenres;
-// }
-
-// async function getAllLabels() {
-//     const allLabels = await Label.fetchAll().map(label => {
-//         return [label.get('id'), label.get('name')]
-//     })
-//     return allLabels
-// }
-
-// async function getRecord(recordId) {
-//     const recordToUpdate = await Record.where({
-//         'id': recordId
-//     }).fetch({
-//         require: true,
-//         withRelated: ['genres']
-//     })
-//     return recordToUpdate
-// }
 
 router.get('/', async (req, res) => {
     // #2 - fetch all the products (ie, SELECT * from products)

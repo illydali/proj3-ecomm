@@ -192,12 +192,27 @@ const createSearchForm = (labels, genres) => {
     })
 }
 
+const updateStatusForm = (status) => {
+    return forms.create({
+        "status_id": fields.string({
+            label: "Status",
+            required: true,
+            errorAfterField: true, 
+            cssClasses: {
+                label: ["form-label"],
+            },
+            widget : widgets.select(),
+            choices: status
+        }),
+    })
+}
 module.exports = {
     createRecordForm,
     createArtistForm,
     createRegisterForm,
     userLoginForm,
     createSearchForm,
+    updateStatusForm,
     bootstrapField,
     bootstrapFieldCol6
 }

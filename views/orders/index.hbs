@@ -11,6 +11,7 @@
             <th>Order Date</th>
             <th>Order Status</th>
             <th>Amount Paid</th>
+            <th>Order Details</th>
             <th></th>
         </tr>
     </thead>
@@ -38,10 +39,23 @@
             <td>
                 {{dollarAmount this.payment_total}}
             </td>
+            <td>
+                <a href="/orders/{{this.id}}/update" class="btn btn-secondary btn-sm">Update</a>
+            </td>
+
+            <td>
+                {{#each this.orderItems}}
+                {{this.quantity}}
+                {{this.record.title}}
+                
+                {{/each}}
+            </td>
         </tr>
         {{/each}}
+
     </tbody>
 </table>
+
 
 {{/block}}
 

@@ -66,6 +66,16 @@ const Order = bookshelf.model('Order', {
     },
     orderItems() {
         return this.hasMany('OrderItem')
+    },
+    status() {
+        return this.belongsTo('Status')
+    }
+})
+
+const Status = bookshelf.model('Status', {
+    tableName: 'status',
+    order() {
+        return this.hasMany('Order')
     }
 })
 
@@ -93,5 +103,6 @@ module.exports = {
     CartItem,
     Order,
     OrderItem,
+    Status,
     BlacklistedToken
 }

@@ -1,6 +1,12 @@
 * {
     font-family: 'Inconsolata', monospace;
 }
+
+.navbar {
+    background-color: #5e7863 !important;
+    color: whitesmoke;
+}
+
 .table {
     table-layout: auto;
 }

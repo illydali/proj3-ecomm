@@ -1,0 +1,26 @@
+{{#extends "base"}}
+
+{{#block "content"}}
+
+
+<div>
+    {{#each orderInfo.orderItems }}
+    <p>{{this.id}}</p>
+    <p>{{this.user.id}}</p>
+    <p>{{this.order_date}}</p>
+    <p>{{this.first_name}}</p>
+    <p>{{this.quantity}}</p>
+    <p>{{this.record.title}}</p>
+    
+    {{/each}}
+</div>
+
+<div class="col-6">
+            <form method="POST">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                {{{form}}}
+                <input type="submit" class="cta" value="Update" id="update">
+            </form>
+        </div>
+{{/block}}
+{{/extends}}
