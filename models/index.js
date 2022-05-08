@@ -35,6 +35,7 @@ const Genre = bookshelf.model('Genre', {
     styles() {
         return this.belongsToMany('Style')
     }
+    
 })
 
 const Style = bookshelf.model('Style', {

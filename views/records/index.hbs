@@ -29,6 +29,7 @@
             <th>Speed</th>
             <th>Type</th>
             <th>Genres</th>
+            <th>Styles</th>
             <th></th>
         </tr>
     </thead>
@@ -78,6 +79,11 @@
             </td>
             <td>
                 {{#each this.genres}}
+                    <span class="badge bg-dark">{{this.name}}</span>
+                {{/each}}
+            </td>
+            <td>
+                {{#each this.genres.[0].styles}}
                     <span class="badge bg-dark">{{this.name}}</span>
                 {{/each}}
             </td>

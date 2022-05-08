@@ -20,12 +20,21 @@ async function getAllLabels() {
     return allLabels
 }
 
+async function getAllStyles() {
+    const allStyles = await Style.fetchAll(
+    
+    ).map(style => {
+        return [style.get('id'), style.get('name')]
+    })
+    return allStyles
+}
+
 async function getRecord(recordId) {
     const recordToUpdate = await Record.where({
         'id': recordId
     }).fetch({
         require: true,
-        withRelated: ['genres', 'labels', 'artists']
+        withRelated: ['genres', 'labels', 'artists', 'genres.styles']
     })
     return recordToUpdate
 }
@@ -34,9 +43,18 @@ async function getAllRecords() {
     return await Record.fetchAll()
 }
 
+async function getAllArtists() {
+    const allArtists = await Artist.fetchAll().map(artist => {
+        return [artist.get('id'), artist.get('name')]
+    })
+    return allArtists
+}
+
 module.exports = {
     getAllGenres,
     getAllLabels,
     getRecord,
-    getAllRecords
+    getAllRecords,
+    getAllStyles,
+    getAllArtists
 }

@@ -94,13 +94,7 @@ router.post('/:order_id/update', checkIfAuthenticated, async (req, res) => {
         'success': async (form) => {
             // Update status
             orderInfo.set(form.data)
-            // // If status is delivered, add date now to completion date. 
-            // if (order.get('status_id') == '4') {
-            //     order.set('date_of_completion', new Date())
-            // } else {
-            //     // Safeguard if changed from 4 to other num
-            //     order.set('date_of_completion', null)
-            // }
+            
             await orderInfo.save();
 
             req.flash('success_messages', 'Order has been updated.')

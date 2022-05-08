@@ -48,7 +48,7 @@ var bootstrapFieldCol6 = function (name, object) {
     return '<div class="form-group col col-6">' + label + widget + error + '</div>';
 };
 
-const createRecordForm = (genres, labels) => {
+const createRecordForm = (genres, labels, artists) => {
     return forms.create({
         'title': fields.string({
             required: true,
@@ -60,6 +60,13 @@ const createRecordForm = (genres, labels) => {
             errorAfterField: true,
             widget: widgets.select(),
             choices: labels
+        }),
+        'artist_id': fields.string({
+            label: 'Artist',
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: artists
         }),
         'price': fields.string({
             required: true,
@@ -94,10 +101,6 @@ const createRecordForm = (genres, labels) => {
             required: true,
             errorAfterField: true
         }),
-        // 'main_image': fields.string({
-        //     // add required true here later   ! important
-
-        // }),
         'genres': fields.string({
             label: 'Genre',
             required: true,
@@ -105,6 +108,13 @@ const createRecordForm = (genres, labels) => {
             widget: widgets.multipleSelect(),
             choices: genres
         }),
+        // 'styles': fields.string({
+        //     label: 'Style',
+        //     required: false,
+        //     errorAfterField: false,
+        //     widget: widgets.multipleSelect(),
+        //     choices: styles
+        // }),
         'image_url': fields.string({
             widget: widgets.hidden()
         })

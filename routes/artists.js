@@ -16,13 +16,6 @@ async function getArtist(artistId) {
     return artistToUpdate
 }
 
-// async function getAllArtists() {
-//     const allArtists = await (await Artist.fetchAll()).map(artist => {
-//         return [artist.get('id'), artist.get('name')]
-//     })
-//     return allArtists
-// }
-
 router.get('/', async (req,res) => {
     let artists = await Artist.collection().fetch()
 

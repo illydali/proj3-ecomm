@@ -22,19 +22,14 @@ const {
 // import in the dal
 const dataLayer = require('../dal/records')
 
-
 router.get('/', async (req, res) => {
-    // #2 - fetch all the products (ie, SELECT * from products)
-    // let records = await Record.collection().fetch({
-    //     withRelated: ['labels', 'genres']
-    // });
-    // res.render('records/index', {
-    //     'records': records.toJSON() // #3 - convert collection to JSON
-    // })
+ 
     const allLabels = await dataLayer.getAllLabels()
     allLabels.unshift([0, 'All']);
     const allGenres = await dataLayer.getAllGenres()
-    const searchForm = createSearchForm(allLabels, allGenres);
+    const allStyles = await dataLayer.getAllStyles()
+    
+    const searchForm = createSearchForm(allLabels, allGenres, allStyles);
 
     let q = Record.collection();
 
@@ -66,7 +61,7 @@ router.get('/', async (req, res) => {
             }
 
             let records = await q.fetch({
-                withRelated: ['labels', 'genres', 'artists']
+                withRelated: ['labels', 'genres', 'artists', 'genres.styles']
             });
             res.render('records/index', {
                 'records': records.toJSON(),
@@ -75,17 +70,20 @@ router.get('/', async (req, res) => {
         },
         'empty' : async (form) => {
             let records = await q.fetch({
-                withRelated: ['labels' , 'genres', 'artists']
+                withRelated: ['labels' , 'genres', 'artists', 'genres.styles']
             })
-
+            records.toJSON()
+            // console.log(records)
             res.render('records/index' , {
                 searchForm : form.toHTML(bootstrapField),
-                'records' : records.toJSON()
+                'records' : records.toJSON(),
+                
             })
+            // console.log(records.toJSON())
         },
         'error': async (form) => {
             let records = await q.fetch({
-                withRelated: ['labels', 'genres', 'artists']
+                withRelated: ['labels', 'genres', 'artists', 'genres.styles']
             })
 
             res.render('records/index', {
@@ -101,7 +99,8 @@ router.get('/', async (req, res) => {
 router.get('/create', checkIfAuthenticated, async (req, res) => {
     const allGenres = await dataLayer.getAllGenres()
     const allLabels = await dataLayer.getAllLabels()
-    const createNew = createRecordForm(allGenres, allLabels);
+    const allArtists = await dataLayer.getAllArtists()
+    const createNew = createRecordForm(allGenres, allLabels, allArtists);
     res.render('records/create', {
         'form': createNew.toHTML(bootstrapFieldCol6),
         cloudinaryName: process.env.CLOUDINARY_NAME,
@@ -113,7 +112,8 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
 router.post('/create', checkIfAuthenticated, async (req, res) => {
     const allGenres = dataLayer.getAllGenres()
     const allLabels = dataLayer.getAllLabels()
-    const createNew = createRecordForm(allGenres, allLabels);
+    const allArtists = dataLayer.getAllArtists()
+    const createNew = createRecordForm(allGenres, allLabels, allArtists);
     createNew.handle(req, {
         'success': async (form) => {
             // separate out genres from the other product data
@@ -125,15 +125,6 @@ router.post('/create', checkIfAuthenticated, async (req, res) => {
             } = form.data;
 
             const record = new Record(recordData);
-            // record.set('title', form.data.title);
-            // record.set('price', form.data.price);
-            // record.set('description', form.data.description);
-            // record.set('release_date', form.data.release_date);
-            // record.set('stock', form.data.stock)
-            // record.set('record_size', form.data.record_size);
-            // record.set('speed', form.data.speed);
-            // record.set('type', form.data.type);
-            // record.set('label_id', form.data.label_id)
 
             await record.save();
 
@@ -155,10 +146,11 @@ router.post('/create', checkIfAuthenticated, async (req, res) => {
 router.get('/:id/update', async (req, res) => {
     const allGenres = await dataLayer.getAllGenres()
     const allLabels = await dataLayer.getAllLabels()
+    const allArtists = await dataLayer.getAllArtists()
     // retrieve the record
     const record = await dataLayer.getRecord(req.params.id)
-
-    const updateForm = createRecordForm(allGenres, allLabels);
+    console.log(record.toJSON())
+    const updateForm = createRecordForm(allGenres, allLabels, allArtists);
 
     // fill in the existing values
     updateForm.fields.title.value = record.get('title');
@@ -171,6 +163,7 @@ router.get('/:id/update', async (req, res) => {
     updateForm.fields.type.value = record.get('type');
 
     updateForm.fields.label_id.value = record.get('label_id')
+    updateForm.fields.artist_id.value = record.get('artist_id')
 
     // 1 - set the image url in the record form
     updateForm.fields.image_url.value = record.get('image_url');
@@ -178,6 +171,7 @@ router.get('/:id/update', async (req, res) => {
 
     let selectedGenres = await record.related('genres').pluck('id');
     updateForm.fields.genres.value = selectedGenres
+
 
     res.render('records/update', {
         'form': updateForm.toHTML(bootstrapField),
@@ -191,10 +185,12 @@ router.get('/:id/update', async (req, res) => {
 router.post('/:id/update', async (req, res) => {
     const allGenres = dataLayer.getAllGenres()
     const allLabels = dataLayer.getAllLabels()
+    const allArtists = await dataLayer.getAllArtists()
+    // const allStyles = dataLayer.getAllStyles()
     // retrieve the record
     const record = await dataLayer.getRecord(req.params.id)
 
-    const updateForm = createRecordForm(allGenres, allLabels);
+    const updateForm = createRecordForm(allGenres, allLabels, allArtists);
 
     updateForm.handle(req, {
         'success': async (form) => {
