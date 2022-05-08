@@ -7,14 +7,13 @@
 <div class="col col-3 ">
     <form method="GET">
         {{{searchForm}}}
-        <input type="submit" class="btn btn-primary mt-3"/>
+        <input type="submit" class="btn btn btn-outline-dark mt-3"/>
     </form>
     </div>
-    <div class="col col-9">
-<table class="'table table-striped">
+<div class="col col-9">
+<table class="table">
     <thead>
         <tr>
-            
             <th>#</th>
             <th>Title</th>
             <th>Artist</th>
@@ -23,7 +22,6 @@
             <th>Description</th>
             <th>Price</th>
             <th>Released</th>
-            {{!-- <th>Year</th> --}}
             <th>Stock</th>
             <th>Size</th>
             <th>Speed</th>
@@ -36,9 +34,6 @@
     <tbody>
         {{#each records}}
         <tr>
-            {{!-- <td>
-             <a href="/cart/add/{{this.id}}" class="btn btn-info text-light btn-sm">Buy Now</a> 
-            </td> --}}
             <td>
                 {{this.id}}
             </td>

@@ -2,6 +2,25 @@
     font-family: 'Inconsolata', monospace;
 }
 
+.home-hero-img{
+    background-image: url('../images/home.jpg');
+    height:95vh;
+    width:95vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.hero-wrapper{
+    position: absolute; 
+    right: 10%;
+    top: 30%;
+}
+
+.hero-text{
+    margin-bottom: 20px;
+    color: whitesmoke !important;
+}
+
 .navbar {
     background-color: #5e7863 !important;
     color: whitesmoke;
