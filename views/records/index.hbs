@@ -7,7 +7,7 @@
 <div class="col col-3 ">
     <form method="GET">
         {{{searchForm}}}
-        <input type="submit" class="btn btn btn-outline-dark mt-3"/>
+        <input type="submit" class="btn btn-outline-dark mt-3"/>
     </form>
     </div>
 <div class="col col-9">
@@ -19,7 +19,7 @@
             <th>Artist</th>
             <th>Label</th>
             <th>Sleeve</th>
-            <th>Description</th>
+            {{!-- <th>Description</th> --}}
             <th>Price</th>
             <th>Released</th>
             <th>Stock</th>
@@ -51,9 +51,9 @@
                     <img src="{{this.image_url}}" class="img-fluid img-thumbnail"/>
                 {{/if}}
             </td>
-            <td>
+            {{!-- <td>
                 {{this.description}}
-            </td>
+            </td> --}}
             <td>
                 {{dollarAmount this.price}}
             </td>
@@ -83,8 +83,8 @@
                 {{/each}}
             </td>
             <td>
-                <a href="/records/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
-                <a href="/records/{{this.id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+                <a href="/records/{{this.id}}/update" class="btn btn-outline-success btn-sm">Update</a>
+                <a href="/records/{{this.id}}/delete" class="btn btn-outline-danger btn-sm">Delete</a>
             </td>
 
         </tr>

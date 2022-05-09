@@ -35,8 +35,14 @@ router.get('/', async (req, res) => {
 
     searchForm.handle(req, {
         'success' : async (form) => {
+
+            // search with casing ignored
             if (form.data.title) {
-                q.where('title', 'like', '%' + form.data.title + '%');
+                q.where('title', 'ilike', '%' + form.data.title + '%');
+            }
+
+            if (form.data.speed) {
+                q.where('speed', '=',  form.data.speed );
             }
 
             // if (form.data.min_price) {

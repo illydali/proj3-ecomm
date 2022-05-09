@@ -172,8 +172,15 @@ const userLoginForm = () => {
 const createSearchForm = (labels, genres) => {
     return forms.create({
         'title': fields.string({
+            label: 'By Title',
             required: false,
             errorAfterField: true,
+        }),
+        'speed': fields.string({
+            label: 'By RPM: 33/46/78',
+            required: false,
+            errorAfterField: true,
+            validators: [validators.digits(), validators.min(0)]
         }),
         // 'min_price': fields.string({
         //     required: false,
@@ -186,14 +193,14 @@ const createSearchForm = (labels, genres) => {
         //     validators: [validators.integer(), validators.min(0)]
         // }),
         'label_id': fields.string({
-            label: 'Record Label',
+            label: 'By Record Label',
             required: false,
             errorAfterField: true,
             widget: widgets.select(),
             choices: labels
         }),
         'genres': fields.string({
-            label: 'Genre',
+            label: 'By Genre',
             required: false,
             errorAfterField: true,
             widget: widgets.multipleSelect(),
