@@ -40,7 +40,10 @@ async function getRecord(recordId) {
 }
 
 async function getAllRecords() {
-    return await Record.fetchAll()
+    return await Record.fetchAll({
+        require: false,
+        withRelated: ['genres', 'labels', 'artists', 'genres.styles']
+    })
 }
 
 async function getAllArtists() {

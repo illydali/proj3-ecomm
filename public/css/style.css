@@ -26,20 +26,10 @@
     color: whitesmoke;
 }
 
-/* .table {
+.table {
     table-layout: auto;
 }
   
 th {
    width: 5%;
-} */
-
-.table {
-    overflow-y: auto;
-    height: 50vh;     /* !!!  HEIGHT MUST BE IN [ vh ] !!! */
-}
-
-thead th {
-    position: sticky;
-    top: 0;
 }
