@@ -26,19 +26,19 @@ const generateAccessToken = (user, secret, expiry) => {
         'username': user.username,
         'id': user.id,
         'email': user.email
-    }, secret,{
+    }, secret, {
         'expiresIn': expiry // w for weeks, m for minutes, s for seconds
     });
 }
 
-router.post('/login', async(req,res)=>{
+router.post('/login', async (req, res) => {
     let user = await User.where({
         'email': req.body.email
     }).fetch({
         require: false
     });
 
-    if (user && user.get('password') == getHashedPassword(req.body.password)){
+    if (user && user.get('password') == getHashedPassword(req.body.password)) {
         let accessToken = generateAccessToken(user.toJSON(), process.env.TOKEN_SECRET, "15m");
         let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, "1h");
         res.send({
@@ -47,13 +47,18 @@ router.post('/login', async(req,res)=>{
         })
     } else {
         res.status(500),
-        res.send({
-            'error':"Wrong email or password"
-        })
+            res.send({
+                'error': "Wrong email or password"
+            })
     }
 })
 
 router.post('/register', async (req, res) => {
+
+    if (req.body.password !== req.body.confirmPassword) {
+        res.send("Passwords do not match");
+    }
+
     // Check if email is already in use
     let checkEmail = await User.where({
         'email': req.body.email
@@ -73,7 +78,7 @@ router.post('/register', async (req, res) => {
             user.set('password', getHashedPassword(req.body.password))
             user.set('address', req.body.address)
             user.set('contact', req.body.contact)
-            user.set('birthdate', req.body.birthdate)
+            user.set('birth_date', req.body.birthdate)
             user.set('role', 'Customer')
             user.set('created', new Date())
             await user.save()
@@ -86,8 +91,7 @@ router.post('/register', async (req, res) => {
     }
 })
 
-
-router.post('/refresh', async function(req,res){
+router.post('/refresh', async function (req, res) {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken) {
         return res.sendStatus(401);
@@ -104,12 +108,12 @@ router.post('/refresh', async function(req,res){
     if (blacklistedToken) {
         res.status(401);
         return res.send({
-            'message':"The refresh token has already expired."
+            'message': "The refresh token has already expired."
         })
     }
 
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, function(err,payload){
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, function (err, payload) {
         if (err) {
             return res.sendStatus(401);
         }
@@ -130,22 +134,22 @@ router.get('/profile', checkIfAuthenticatedJWT, (req, res) => {
 })
 
 
-router.post('/logout', async(req,res)=>{
+router.post('/logout', async (req, res) => {
     let refreshToken = req.body.refreshToken;
     if (!refreshToken) {
         res.sendStatus(401);
     } else {
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET,
-            async function(err,payload){
+            async function (err, payload) {
                 if (err) {
                     return res.sendStatus(401);
-                } 
+                }
                 const token = new BlacklistedToken();
                 token.set('token', refreshToken);
                 token.set('date_created', new Date())
                 await token.save();
                 res.send({
-                    'message':"logged out"
+                    'message': "logged out"
                 })
             })
     }

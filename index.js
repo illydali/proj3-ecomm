@@ -126,8 +126,8 @@ async function main() {
   app.use('/artists', artistRoutes)
   app.use('/users', userRoutes)
   app.use('/cloudinary', cloudinaryRoutes)
-  app.use('/customers', customerRoutes)
-  app.use('/orders', orderRoutes)
+  app.use('/customers', checkIfAuthenticated, customerRoutes)
+  app.use('/orders', checkIfAuthenticated, orderRoutes)
   app.use('/api/records', express.json(), api.records)
   app.use('/api/users', express.json(), api.users)
   app.use('/api/cart', express.json(), api.cart) // add auth later

@@ -6,6 +6,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Address</th>
             <th>Contact</th>
             <th>Birthdate</th>
@@ -22,6 +23,9 @@
                 {{this.first_name}} {{this.last_name}}
             </td>
             <td>
+                {{this.email}}
+            </td>
+            <td>
                 {{this.address}}
             </td>
             <td>
@@ -30,10 +34,6 @@
             <td>
                 {{formatDate this.birth_date}}
             </td>
-            {{!-- <td>
-                <a href="/artists/{{this.id}}/update" class="btn btn-primary btn-sm">Update</a>
-                <a href="/artists/{{this.id}}/delete" class="btn btn-danger btn-sm">Delete</a>
-            </td> --}}
         </tr>
         {{/each}}
     </tbody>
