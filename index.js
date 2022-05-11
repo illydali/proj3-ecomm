@@ -131,7 +131,7 @@ async function main() {
 
    // api routes
   app.use('/api/records', express.json(), api.records)
-  app.use('/api/users', express.json(), api.users)
+  app.use('/api/users', express.json(),  api.users)
   app.use('/api/cart', express.json(), api.cart) // add auth later
   app.use('/api/checkout', api.checkout)
 }

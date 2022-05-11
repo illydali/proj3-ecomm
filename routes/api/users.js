@@ -43,7 +43,8 @@ router.post('/login', async (req, res) => {
         let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, "1h");
         res.send({
             'accessToken': accessToken,
-            'refreshToken': refreshToken
+            'refreshToken': refreshToken,
+            'user' : user
         })
     } else {
         res.status(500),
@@ -125,12 +126,25 @@ router.post('/refresh', async function (req, res) {
     })
 })
 
-router.get('/profile', checkIfAuthenticatedJWT, (req, res) => {
-    const user = req.user;
-    res.send({
-        user: user,
-        message: 'Welcome, ' + req.user.username
-    });
+router.get('/profile', checkIfAuthenticatedJWT, async (req, res) => {
+    try {
+        let user = req.user
+
+        let getUser = await User.where({
+            'id': user.id
+        }).fetch({
+            require: false
+        });
+    
+        console.log(user)
+        console.log(getUser)
+        res.send({
+            user: getUser,
+            message: 'Welcome, ' + req.user.username
+        });
+    } catch (e) {
+        console.log(e)
+    }
 })
 
 
