@@ -22,8 +22,13 @@
 }
 
 .navbar {
-    background-color: #5e7863 !important;
-    color: whitesmoke;
+    background-color: #e4e0c7 !important;
+    color: white ;
+    
+}
+
+.nav-link {
+    color: white  !important;
 }
 
 .table {

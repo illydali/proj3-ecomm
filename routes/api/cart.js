@@ -16,6 +16,7 @@ router.get('/:user_id', async (req, res) => {
     }
 })
 
+
 // add item into cart
 router.get('/:user_id/add/:record_id', async (req,res) => {
     let cartServices = new CartServices(req.params.user_id);
