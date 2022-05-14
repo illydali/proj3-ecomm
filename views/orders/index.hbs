@@ -10,8 +10,8 @@
             <th>Address</th>
             <th>Contact</th>
             <th>Order Date</th>
-            <th>Order Status</th>
             <th>Amount Paid</th>
+            <th>Order Status</th>
             <th>Order Details</th>
             <th></th>
         </tr>
@@ -35,22 +35,22 @@
                 {{formatDate this.order_date}}
             </td>
             <td>
-                {{this.status.action}}
+                {{dollarAmount this.payment_total}}
             </td>
             <td>
-                {{dollarAmount this.payment_total}}
+                {{this.status.action}}
             </td>
             <td>
                 <a href="/orders/{{this.id}}/update" class="btn btn-secondary btn-sm">Update</a>
             </td>
 
-            <td>
+            {{!-- <td>
                 {{#each this.orderItems}}
                 {{this.quantity}}
                 {{this.record.title}}
                 
                 {{/each}}
-            </td>
+            </td> --}}
         </tr>
         {{/each}}
 
