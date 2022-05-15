@@ -31,27 +31,18 @@ router.get("/:order_id", async (req, res) => {
         "order_id": orderId
     }).fetchAll({
         require: false,
-        withRelated: ["record", "record.labels", "record.artists", "record.genres", 'order']
+        withRelated: ["record", "record.labels", "record.artists", "record.genres", 'order', 'order.user', 'order.status']
     })
 
+    // let orderInfo = await Order.where({
+    //     'id' : orderId 
+    // }).fetchAll({
+    //     require: false,
+    //     withRelated: ['status', 'user']
+    // })
     console.log(orderDetails.toJSON())
+    // console.log(orderInfo.toJSON())
     res.send(orderDetails)
-
 })
-
-// router.get("/:order_id", async (req, res) => {
-//     let orderId = req.params.order_id
-//     let orders = await Order.where({
-//         "id": orderId
-//     }).fetch({
-//         require: false,
-//         withRelated: ["status"]
-//     })
-//     if (orders) {
-//         res.send(orders)
-//     } else {
-//         res.send("No Orders")
-//     }
-// })
 
 module.exports = router

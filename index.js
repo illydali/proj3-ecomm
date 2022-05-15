@@ -116,7 +116,8 @@ const api = {
   users: require('./routes/api/users'),
   cart: require('./routes/api/cart'),
   checkout: require('./routes/api/checkout'),
-  orders : require('./routes/api/orders')
+  orders : require('./routes/api/orders'),
+  search: require('./routes/api/search')
 }
 
 
@@ -136,6 +137,7 @@ async function main() {
   app.use('/api/cart', express.json(), api.cart) // add auth later
   app.use('/api/checkout', api.checkout)
   app.use('/api/orders', express.json(), api.orders)
+  app.use('/api/search', express.json(), api.search)
 }
 
 main();
