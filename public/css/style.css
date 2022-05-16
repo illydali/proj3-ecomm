@@ -2,39 +2,38 @@
     font-family: 'Inconsolata', monospace;
 }
 
-.home-hero-img{
+.home-hero-img {
     background-image: url('../images/home.jpg');
-    height:95vh;
-    width:95vw;
+    height: 95vh;
+    width: 95vw;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.hero-wrapper{
-    position: absolute; 
+.hero-wrapper {
+    position: absolute;
     right: 10%;
     top: 30%;
 }
 
-.hero-text{
+.hero-text {
     margin-bottom: 20px;
     color: whitesmoke !important;
 }
 
 .navbar {
-    background-color: #e4e0c7 !important;
-    color: white ;
-    
+    background-color: rgb(9, 2, 2);
+    color: white
 }
 
 .nav-link {
-    color: white  !important;
+    color: white !important;
 }
 
 .table {
     table-layout: auto;
 }
-  
+
 th {
-   width: 5%;
+    width: 5%;
 }

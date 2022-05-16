@@ -39,12 +39,12 @@ router.post('/login', async (req, res) => {
     });
 
     if (user && user.get('password') == getHashedPassword(req.body.password)) {
-        let accessToken = generateAccessToken(user.toJSON(), process.env.TOKEN_SECRET, "15m");
-        let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, "1h");
+        let accessToken = generateAccessToken(user.toJSON(), process.env.TOKEN_SECRET, "30m");
+        let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, "7d");
         res.send({
             'accessToken': accessToken,
             'refreshToken': refreshToken,
-            'user' : user
+            'user': user
         })
     } else {
         res.status(500),
@@ -135,7 +135,7 @@ router.get('/profile', checkIfAuthenticatedJWT, async (req, res) => {
         }).fetch({
             require: false
         });
-    
+
         console.log(user)
         console.log(getUser)
         res.send({
@@ -167,6 +167,40 @@ router.post('/logout', async (req, res) => {
                 })
             })
     }
+})
+
+router.patch('/update/:user_id', async (req, res) => {
+
+    let id = req.params.user_id
+    let user = await User.where({
+        "id": id
+    }).fetch({
+        require: true
+    })
+
+    if (req.body.password !== req.body.confirmPassword) {
+        res.send("Passwords do not match");
+    }
+
+    try {
+        // Edit user info table
+        user.set('username', req.body.username)
+        user.set('first_name', req.body.first_name)
+        user.set('last_name', req.body.last_name)
+        user.set('email', req.body.email)
+        user.set('password', getHashedPassword(req.body.password))
+        user.set('address', req.body.address)
+        user.set('contact', req.body.contact)
+        user.set('birth_date', req.body.birthdate)
+        await user.save()
+
+        res.send(user)
+    } catch (e) {
+        console.log(e)
+        res.send('Unable to update user')
+    }
+
+
 })
 
 module.exports = router
