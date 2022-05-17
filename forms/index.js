@@ -182,16 +182,6 @@ const createSearchForm = (labels, genres) => {
             errorAfterField: true,
             validators: [validators.digits(), validators.min(0)]
         }),
-        // 'min_price': fields.string({
-        //     required: false,
-        //     errorAfterField: true,
-        //     validators: [validators.integer(), validators.min(0)]
-        // }),
-        // 'max_price': fields.string({
-        //     required: false,
-        //     errorAfterField: true,
-        //     validators: [validators.integer(), validators.min(0)]
-        // }),
         'label_id': fields.string({
             label: 'By Record Label',
             required: false,
@@ -205,6 +195,45 @@ const createSearchForm = (labels, genres) => {
             errorAfterField: true,
             widget: widgets.multipleSelect(),
             choices: genres
+        }),
+    })
+}
+
+const createOrderSearchForm = (status) => {
+    return forms.create({
+        "status_id": fields.string({
+            label: "Status",
+            required: false,
+            errorAfterField: true, 
+            cssClasses: {
+                label: ["form-label"],
+            },
+            widget : widgets.select(),
+            choices: status
+        }),
+        "order_id": fields.number({
+            label: 'By Order Id',
+            required: false,
+        }),
+        "user_id": fields.number({
+            label: 'By Customer Id',
+            required: false,
+            cssClasses: {
+                label: ["form-label"],
+            },
+        }),
+        'min_total': fields.string({
+            label: 'Filter By Minimun Total Cost',
+            'validators': [validators.integer(), validators.min(0)],
+            required: false,
+            errorAfterField: true,
+        }),
+        'max_total': fields.string({
+            label: 'Filter By Maximum Total Cost',
+            'validators': [validators.integer(), validators.min(0)],
+            required: false,
+            errorAfterField: true,
+            
         }),
     })
 }
@@ -230,6 +259,7 @@ module.exports = {
     userLoginForm,
     createSearchForm,
     updateStatusForm,
+    createOrderSearchForm,
     bootstrapField,
     bootstrapFieldCol6
 }

@@ -45,14 +45,6 @@ router.get('/', async (req, res) => {
                 q.where('speed', '=',  form.data.speed );
             }
 
-            // if (form.data.min_price) {
-            //     q.where('price', '>=', form.data.min_price);
-            // }
-
-            // if (form.data.max_price) {
-            //     q.where('price', '<=', form.data.max_price);
-            // }
-
             if (form.data.label_id && form.data.label_id != '0') {
                 q.where('label_id', '=', form.data.label_id)
             }
