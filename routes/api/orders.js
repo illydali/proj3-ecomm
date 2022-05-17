@@ -34,12 +34,6 @@ router.get("/:order_id", async (req, res) => {
         withRelated: ["record", "record.labels", "record.artists", "record.genres", 'order', 'order.user', 'order.status']
     })
 
-    // let orderInfo = await Order.where({
-    //     'id' : orderId 
-    // }).fetchAll({
-    //     require: false,
-    //     withRelated: ['status', 'user']
-    // })
     console.log(orderDetails.toJSON())
     // console.log(orderInfo.toJSON())
     res.send(orderDetails)

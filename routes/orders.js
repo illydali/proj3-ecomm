@@ -35,11 +35,22 @@ const getOrderItemsById = async (id) => {
     return orderItem
 }
 
-async function getAllOrderDetails() {
+const getAllOrderDetails = async() => {
+    const allOrders = await OrderItem.collection()
+    .fetch({
+        require: true,
+        withRelated: ['record', 'order']
+    })
+    return allOrders
+}
+
+const getAllOrderDetailsByOrderId = async(id) => {
     try {
-        const allDetails = await OrderItem.collection()
-        .fetch({
-            withRelated: ['record', 'order']
+        const allDetails = await OrderItem.where({
+            'order_id' : id
+        })
+        .fetchAll({
+            withRelated: ['record', 'order',]
         })
         return allDetails
     } catch (err) {
@@ -57,9 +68,6 @@ router.get('/', async (req, res) => {
         'orders': orders.toJSON(),
         'orderDetails' : orderDetails.toJSON()
     })
-
-    console.log(orders.toJSON())
-    console.log(orderDetails.toJSON())
 })
 
 
@@ -73,7 +81,7 @@ router.get('/:order_id/update', async (req, res) => {
     const updateStatus = updateStatusForm(allStatus)
 
     const orderInfo = await getOrderItemsById(req.params.order_id)
-    const orderDetails = await getAllOrderDetails()
+    const orderDetails = await getAllOrderDetailsByOrderId(req.params.order_id)
     res.render('orders/update', {
         'form' : updateStatus.toHTML(bootstrapFieldCol6),
         'orderInfo' : orderInfo.toJSON(),
