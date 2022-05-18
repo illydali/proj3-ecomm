@@ -178,22 +178,14 @@ router.patch('/update/:user_id', async (req, res) => {
         require: true
     })
 
-    if (req.body.password !== req.body.confirmPassword) {
-        res.send("Passwords do not match");
-    }
-
     try {
         // Edit user info table
-        user.set('username', req.body.username)
         user.set('first_name', req.body.first_name)
         user.set('last_name', req.body.last_name)
-        user.set('email', req.body.email)
-        user.set('password', getHashedPassword(req.body.password))
         user.set('address', req.body.address)
         user.set('contact', req.body.contact)
-        user.set('birth_date', req.body.birthdate)
+        user.set('birth_date', req.body.birth_date)
         await user.save()
-
         res.send(user)
     } catch (e) {
         console.log(e)
