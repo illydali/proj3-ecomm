@@ -27,7 +27,7 @@
             <th>Speed</th>
             <th>Type</th>
             <th>Genres</th>
-            <th>Styles</th>
+            {{!-- <th>Styles</th> --}}
             <th></th>
         </tr>
     </thead>
@@ -77,11 +77,11 @@
                     <span class="badge bg-dark">{{this.name}}</span>
                 {{/each}}
             </td>
-            <td>
+            {{!-- <td>
                 {{#each this.genres.[0].styles}}
                     <span class="badge bg-dark">{{this.name}}</span>
                 {{/each}}
-            </td>
+            </td> --}}
             <td>
                 <a href="/records/{{this.id}}/update" class="btn btn-outline-success btn-sm">Update</a>
                 <a href="/records/{{this.id}}/delete" class="btn btn-outline-danger btn-sm">Delete</a>
