@@ -34,8 +34,7 @@ router.post('/register', async (req, res) => {
 
             });
             await user.save();
-            req.flash("success_messages", "User signed up successfully!");
-            res.redirect('/users/login')
+            req.flash("success_messages", "User signed up successfully! Logout and re-sign in to test");
         },
         'error': (form) => {
             // display validation errors to user

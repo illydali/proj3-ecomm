@@ -26,15 +26,12 @@ router.get("/allorders/:user_id", async (req, res) => {
 
 router.get("/:order_id", async (req, res) => {
     let orderId = req.params.order_id
-    console.log(orderId)
     let orderDetails = await OrderItem.where({
         "order_id": orderId
     }).fetchAll({
         require: false,
         withRelated: ["record", "record.labels", "record.artists", "record.genres", 'order', 'order.user', 'order.status']
     })
-
-    console.log(orderDetails.toJSON())
     res.send(orderDetails)
 })
 
