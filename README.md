@@ -13,13 +13,13 @@ Admin - https://illy-vinylshop.herokuapp.com/
 
 | Email | Password    |                
 | :-------- | :------- | 
-| `rotijohn@gemail.com` | `rotijohn123` |  
+| `rotijohn@gemail.com` | `test1234` |  
 
 E-commerce - https://the-vinyl-jukebox.netlify.app/
 
 Please note that heroku will take up to 30 seconds to load.
 
-Full readme can be found at https://github.com/illydali/proj3-ecomm-react.
+Full readme can be found at https://github.com/illydali/proj3-ecomm-react
 
 ## Database Design
 Usage of ORM libraries - db-migrate, Bookshelf, Knex 
@@ -43,7 +43,9 @@ Order to User and Record
 
 #### Original design of the database before moving on to logical schema. 
 
-![Original ERD](vinylshop_erd.png)
+Logical schema and complete readme of entire project can be found [here](https://github.com/illydali/proj3-ecomm-react)
+
+![Original ERD](vinylshop_erd.png) 
 
 ## Technologies & Libraries Used
 - NodeJS Framework
@@ -55,10 +57,18 @@ Order to User and Record
 - Bootstrap 5
 - Caolan Forms 
 - Flash messages
-- JSON Web Token 
+- JSON Web Token & jwt-verify
 - CORS
-- CSRF
+- CSURF
 - Express-sessions and session-file-store
-- moment.js
+- momentjs
 
 ## Acknowlegements
+
+Lecturer [Paul Chor](https://github.com/kunxin-chor) for imparting his skills.
+
+TAs Ace, Haryati and Chen Yun for being patient and spending time to figure out our bugs.
+
+The class of TGC16 for always being ready to share all knowledge, shortcuts and problem-fixes. 
+
+*Data used in the development of this website is for educational purposes only and may or may not be accurate.*

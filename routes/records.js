@@ -71,13 +71,11 @@ router.get('/', async (req, res) => {
                 withRelated: ['labels' , 'genres', 'artists', 'genres.styles']
             })
             records.toJSON()
-            // console.log(records)
             res.render('records/index' , {
                 searchForm : form.toHTML(bootstrapField),
                 'records' : records.toJSON(),
                 
             })
-            // console.log(records.toJSON())
         },
         'error': async (form) => {
             let records = await q.fetch({
@@ -147,7 +145,6 @@ router.get('/:id/update', async (req, res) => {
     const allArtists = await dataLayer.getAllArtists()
     // retrieve the record
     const record = await dataLayer.getRecord(req.params.id)
-    console.log(record.toJSON())
     const updateForm = createRecordForm(allGenres, allLabels, allArtists);
 
     // fill in the existing values

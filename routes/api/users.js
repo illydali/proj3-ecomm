@@ -136,14 +136,12 @@ router.get('/profile', checkIfAuthenticatedJWT, async (req, res) => {
             require: false
         });
 
-        console.log(user)
-        console.log(getUser)
         res.send({
             user: getUser,
             message: 'Welcome, ' + req.user.username
         });
     } catch (e) {
-        console.log(e)
+        res.send('unable to verify profile')
     }
 })
 

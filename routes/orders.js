@@ -184,8 +184,6 @@ router.get('/:order_id/update', async (req, res) => {
         'orderDetails': orderDetails.toJSON()
 
     })
-    console.log('Orderinfo', orderInfo.toJSON())
-    console.log(orderDetails.toJSON())
 })
 
 router.post('/:order_id/update', checkIfAuthenticated, async (req, res) => {

@@ -28,8 +28,6 @@ router.get('/', async (req, res) => {
         require: true
     })
 
-    console.log(userId)
-
     // step 1 - create line items
     let lineItems = [];
     let meta = [];
@@ -66,12 +64,6 @@ router.get('/', async (req, res) => {
     }
     // step 3: register the session
     let stripeSession = await Stripe.checkout.sessions.create(payment)
-    // console.log(payment)
-
-    // res.status(200).send({
-    //     'sessionId': stripeSession.id, // 4. Get the ID of the session
-    //     'publishableKey': process.env.STRIPE_PUBLISHABLE_KEY
-    // })
 
     res.render('checkout/checkout', {
         'sessionId': stripeSession.id, // 4. Get the ID of the session
@@ -96,8 +88,6 @@ router.post('/process_payment', express.raw({
     let sigHeader = req.headers["stripe-signature"];
     let event;
 
-    // REMEMBER TO CHANGE GITPOD URL TO PUBLIC!!!!!!!!! 
-
     try {
         event = Stripe.webhooks.constructEvent(payload, sigHeader, endpointSecret);
     } catch (e) {
@@ -109,8 +99,6 @@ router.post('/process_payment', express.raw({
 
     if (event.type == 'checkout.session.completed') {
         let stripeSession = event.data.object;
-        console.log(stripeSession);
-        console.log(stripeSession.metadata);
 
         let purchases = JSON.parse(event.data.object.metadata.orders)
 
