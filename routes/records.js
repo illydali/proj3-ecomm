@@ -132,7 +132,7 @@ router.post('/create', checkIfAuthenticated, async (req, res) => {
         },
         'error': async (form) => {
             res.render('records/create', {
-                'form': form.toHTML(bootstrapField)
+                'form': form.toHTML(bootstrapFieldCol6)
             })
         }
     })
