@@ -79,7 +79,7 @@ router.post('/register', async (req, res) => {
             user.set('password', getHashedPassword(req.body.password))
             user.set('address', req.body.address)
             user.set('contact', req.body.contact)
-            user.set('birth_date', req.body.birthdate)
+            user.set('birth_date', req.body.birth_date)
             user.set('role', 'Customer')
             user.set('created', new Date())
             await user.save()

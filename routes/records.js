@@ -184,7 +184,6 @@ router.post('/:id/update', async (req, res) => {
     const allGenres = dataLayer.getAllGenres()
     const allLabels = dataLayer.getAllLabels()
     const allArtists = await dataLayer.getAllArtists()
-    // const allStyles = dataLayer.getAllStyles()
     // retrieve the record
     const record = await dataLayer.getRecord(req.params.id)
 

@@ -35,7 +35,6 @@ router.get("/:order_id", async (req, res) => {
     })
 
     console.log(orderDetails.toJSON())
-    // console.log(orderInfo.toJSON())
     res.send(orderDetails)
 })
 
